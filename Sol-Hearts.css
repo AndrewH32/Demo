@@ -1,0 +1,127 @@
+/* Reset default styles and provide a modern layout */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1c;
+    color: white; /* Text color */
+}
+
+/* Header with a dark background and gradient */
+header {
+    background: linear-gradient(to bottom, #0074e4, #0048a8);
+    color: #fff;
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* Navigation menu styles */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #0074e4; /* Hover color */
+}
+
+/* About section with a subtle background pattern */
+section#about {
+    background-color: #1c1c1c;
+    padding: 80px 0;
+    text-align: center;
+}
+
+section#about p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+/* Portfolio section with card-style game projects */
+section#portfolio {
+    background-color: #333;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.game {
+    background-color:blue ;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.game:hover {
+    transform: scale(1.05);
+}
+
+.game img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Contact section with a contact form */
+section#contact {
+    background-color: #1c1c1c;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.contact-form input[type="submit"] {
+    background: linear-gradient(to bottom, #0074e4, #0048a8);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.contact-form input[type="submit"]:hover {
+    background: linear-gradient(to bottom, #0048a8, #0074e4);
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
