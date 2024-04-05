@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sol-Hearts</title>
+    <link rel="stylesheet" href="Sol-Hearts-Styles.css"> <!-- Link to custom CSS file for styling -->
+</head>
+<body>
+    <header>
+        <h1>Sol-Hearts</h1>
+        <nav>
+            <ul>
+                <li><a href="#design">Design Document</a></li>
+                <li><a href="#game">Game</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="design">
+        <h2>Design Document</h2>
+        <iframe src="C:\Users\Andrew\OneDrive\Documents\Sol Hearts.pdf" title="Sol-Hearts" width="800" height="600" frameborder="0"></iframe>
+    </section>
+
+    <section id="game">
+        <h2>Game</h2>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <script src="app.js"></script> <!-- Link to JavaScript file for game logic -->
+    </section>
+
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <p>You can reach me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a>, <a href="tel:720-290-8971">720-290-8971</a></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Andrew Hensley</p>
+    </footer>
+
+    <script>
+        // JavaScript code to interact with the game canvas
+        const canvas = document.getElementById('gameCanvas');
+        const context = canvas.getContext('2d');
+        
+        // Function to draw the game
+        function drawGame() {
+            // Draw game elements using Pygame-like functions
+            // For example:
+            context.fillStyle = 'green';
+            context.fillRect(10, 10, 50, 50);  // Example rectangle
+            
+            // Call this function repeatedly to animate the game
+            requestAnimationFrame(drawGame);
+        }
+        
+        // Start drawing the game
+        drawGame();
+    </script>
+</body>
+</html>
