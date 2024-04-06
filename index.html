@@ -354,6 +354,17 @@ pygame.quit()
     window.onload = runPythonScript;
   </script>
 
+# Initialize the GUI
+gui = init_gui()
+
+# Create a WebView instance
+webview = WebView(gui=gui)
+
+# Create a window with the HTML content
+webview.create_window('Racing Game', html=html_content)
+
+# Start the WebView instance
+webview.start()
  
 </body>
 </html>
