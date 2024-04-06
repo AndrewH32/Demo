@@ -1,6 +1,3 @@
-import asyncio
-from pywebview import WebView
-from pywebview.platforms.pyqt import init_gui
 import pygame
 import time
 import math
