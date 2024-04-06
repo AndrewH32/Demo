@@ -38,24 +38,31 @@
         <p>&copy; 2024 Andrew Hensley</p>
     </footer>
 
-    <script>
-        // JavaScript code to interact with the game canvas
-        const canvas = document.getElementById('gameCanvas');
-        const context = canvas.getContext('2d');
-        
-        // Function to draw the game
-        function drawGame() {
-            // Draw game elements using Pygame-like functions
-            // For example:
-            context.fillStyle = 'green';
-            context.fillRect(10, 10, 50, 50);  // Example rectangle
-            
-            // Call this function repeatedly to animate the game
-            requestAnimationFrame(drawGame);
-        }
-        
-        // Start drawing the game
-        drawGame();
-    </script>
+      <!-- Create a container for the game display -->
+  <div id="gameContainer"></div>
+
+  <script>
+    // PyBag integration: Python code execution
+    // This code will run the Python script and display the game in the container
+    async function runPythonScript() {
+      // Import the necessary PyBag modules
+      const { runPyScript } = window.pywebview.api;
+      
+      // Define the Python script content
+      const pythonScript = `
+        # Your Python script content goes here...
+        # Your existing Python code goes here...
+        ${python_code}
+      `;
+
+      // Run the Python script
+      await runPyScript(pythonScript);
+    }
+
+    // Run the Python script when the page loads
+    window.onload = runPythonScript;
+  </script>
+
+ 
 </body>
 </html>
