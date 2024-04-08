@@ -1,11 +1,12 @@
 import pygame
+from inputs import get_gamepad
 import time
 import math
 from utils import scale_image, blit_rotate_center, blit_text_center
-
 pygame.font.init()
 
-GRASS = scale_image(pygame.image.load("imgs/space.jpg"), 2.5)
+
+SPACE = scale_image(pygame.image.load("imgs/space.jpg"), 2.5)
 TRACK = scale_image(pygame.image.load("imgs/track.png"), 0.9)
 
 TRACK_BORDER = scale_image(pygame.image.load("imgs/track-border.png"), 0.9)
@@ -15,12 +16,12 @@ FINISH = pygame.image.load("imgs/finish.png")
 FINISH_MASK = pygame.mask.from_surface(FINISH)
 FINISH_POSITION = (130, 250)
 
-RED_CAR = scale_image(pygame.image.load("imgs/red-car.png"), 0.55)
-GREEN_CAR = scale_image(pygame.image.load("imgs/green-car.png"), 0.55)
+GREEN_ROCKET = scale_image(pygame.image.load("imgs/green-rocket.png"), 0.25)
+ORANGE_ROCKET = scale_image(pygame.image.load("imgs/orange-rocket.png"), 0.25)
 
 WIDTH, HEIGHT = TRACK.get_width(), TRACK.get_height()
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Racing Game!")
+pygame.display.set_caption("Sol Hearts!")
 
 MAIN_FONT = pygame.font.SysFont("comicsans", 44)
 
@@ -107,7 +108,7 @@ class AbstractCar:
 
 
 class PlayerCar(AbstractCar):
-    IMG = RED_CAR
+    IMG = GREEN_ROCKET
     START_POS = (180, 200)
 
     def reduce_speed(self):
@@ -120,7 +121,7 @@ class PlayerCar(AbstractCar):
 
 
 class ComputerCar(AbstractCar):
-    IMG = GREEN_CAR
+    IMG = ORANGE_ROCKET
     START_POS = (150, 200)
 
     def __init__(self, max_vel, rotation_vel, path=[]):
@@ -205,9 +206,9 @@ def move_player(player_car):
     keys = pygame.key.get_pressed()
     moved = False
 
-    if keys[pygame.K_a]:
+    if keys[pygame.K_k]:
         player_car.rotate(left=True)
-    if keys[pygame.K_d]:
+    if keys[pygame.K_l]:
         player_car.rotate(right=True)
     if keys[pygame.K_w]:
         moved = True
@@ -247,10 +248,10 @@ def handle_collision(player_car, computer_car, game_info):
 
 run = True
 clock = pygame.time.Clock()
-images = [(GRASS, (0, 0)), (TRACK, (0, 0)),
-          (FINISH, FINISH_POSITION), (TRACK_BORDER, (0, 0))]
+images = [(SPACE, (0, 0)), (TRACK, (0, 0)),
+           (FINISH, FINISH_POSITION), (TRACK_BORDER, (0, 0))]
 player_car = PlayerCar(4, 4)
-computer_car = ComputerCar(2, 4, PATH)
+computer_car = ComputerCar(1, 4, PATH)
 game_info = GameInfo()
 
 while run:
