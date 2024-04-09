@@ -28,7 +28,12 @@
     <section id="game">
         <h2>Game</h2>
 
- import asyncio
+        <script src="https://cdn.jsdelivr.net/gh/pygame/pygame_sdl2/pygame.js"></script>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
+      import asyncio
 import pygame
 from inputs import get_gamepad
 import time
@@ -322,9 +327,10 @@ await asyncio.sleep(0)
 
 asyncio.run(  main()  )
 pygame.quit()
+ 
+    </script>
 
-
-    </section>
+  </section>
 
     <section id="contact">
         <h2>Contact Me</h2>
