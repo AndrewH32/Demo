@@ -28,12 +28,24 @@
     <section id="game">
         <h2>Game</h2>
 
- <script src="/brython.js"></script>
+        <script type="text/javascript" src="brython.js"></script>
+        <script type="text/javascript" src="brython_stdlib.js"></script>
+        <script type="text/javascript" src="game.js"></script>
+        <style>
+            #gjs-canvas {
+                border: none;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                height: 100%;
+                width: 100%;
+                image-rendering: pixelated;
+            }
+        </style>
 
-<script type="text/python" src="main.py"></script>
-<input id="zone" autocomplete="off">
-<button id="mybutton">click!</button>
-   
+        <script type="text/python">
+
+            
     </section>
 
     <section id="contact">
