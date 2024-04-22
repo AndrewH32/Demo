@@ -1,4 +1,3 @@
-import asyncio
 import pygame
 from inputs import get_gamepad
 import time
@@ -245,8 +244,6 @@ def handle_collision(player_car, computer_car, game_info):
             player_car.reset()
             computer_car.next_level(game_info.level)
 
-async def main():
-
 run = True
 clock = pygame.time.Clock()
 images = [(SPACE, (0, 0)), (TRACK, (0, 0)),
@@ -289,5 +286,4 @@ await asyncio.sleep(0)
         player_car.reset()
         computer_car.reset()
 
-await async.sleep(0)
-asyncio.run(main)())
+pygame.run(main)())
