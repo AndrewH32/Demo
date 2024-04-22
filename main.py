@@ -30,7 +30,6 @@ FPS = 60
 PATH = [(175, 119), (110, 70), (56, 133), (70, 481), (318, 731), (404, 680), (418, 521), (507, 475), (600, 551), (613, 715), (736, 713),
         (734, 399), (611, 357), (409, 343), (433, 257), (697, 258), (738, 123), (581, 71), (303, 78), (275, 377), (176, 388), (178, 260)]
 
-async def main():
 class GameInfo:
     LEVELS = 10
 
@@ -246,6 +245,7 @@ def handle_collision(player_car, computer_car, game_info):
             player_car.reset()
             computer_car.next_level(game_info.level)
 
+async def main():
 
 run = True
 clock = pygame.time.Clock()
