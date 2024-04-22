@@ -289,5 +289,5 @@ await asyncio.sleep(0)
         player_car.reset()
         computer_car.reset()
 
-asyncio.run(  main()  )
+await async.sleep(0)
 pygame.quit()
