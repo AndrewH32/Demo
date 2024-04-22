@@ -10,7 +10,7 @@ body {
 /* Header with a dark background and gradient */
 header {
     background: linear-gradient(to bottom, #0074e4, #0048a8);
-    color: #fff;
+    color: #Red;
     text-align: center;
     padding: 40px 0;
 }
