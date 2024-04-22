@@ -25,42 +25,92 @@
         <iframe src="Sol Hearts.pdf" title="Sol-Hearts" width="800" height="600" frameborder="0"></iframe>
     </section>
 
-   <div id="game-container">
-        <iframe src= "main.py" width="800" height="600">
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
+        // Define images
+        const images = {
+            space: "imgs/space.jpg",
+            track: "imgs/track.png",
+            trackBorder: "imgs/track-border.png",
+            finish: "imgs/finish.png",
+            greenRocket: "imgs/green-rocket.png",
+            orangeRocket: "imgs/orange-rocket.png"
+        };
 
-import asyncio
-import pygame
-from inputs import get_gamepad
-import time
-import math
-from utils import scale_image, blit_rotate_center, blit_text_center
-pygame.font.init()
+        // Preload images
+        const loadedImages = {};
+        const imageKeys = Object.keys(images);
+        let imagesLoaded = 0;
 
+        function preloadImages() {
+            imageKeys.forEach(key => {
+                const img = new Image();
+                img.onload = () => {
+                    imagesLoaded++;
+                    if (imagesLoaded === imageKeys.length) {
+                        initializeGame();
+                    }
+                };
+                img.src = images[key];
+                loadedImages[key] = img;
+            });
+        }
 
-SPACE = scale_image(pygame.image.load("imgs/space.jpg"), 2.5)
-TRACK = scale_image(pygame.image.load("imgs/track.png"), 0.9)
+        // Initialize game after images are loaded
+        function initializeGame() {
+            const canvas = document.getElementById("gameCanvas");
+            const ctx = canvas.getContext("2d");
 
-TRACK_BORDER = scale_image(pygame.image.load("imgs/track-border.png"), 0.9)
-TRACK_BORDER_MASK = pygame.mask.from_surface(TRACK_BORDER)
+            const WIDTH = canvas.width;
+            const HEIGHT = canvas.height;
 
-FINISH = pygame.image.load("imgs/finish.png")
-FINISH_MASK = pygame.mask.from_surface(FINISH)
-FINISH_POSITION = (130, 250)
+            // Define game objects
+            const space = loadedImages.space;
+            const track = loadedImages.track;
+            const trackBorder = loadedImages.trackBorder;
+            const finish = loadedImages.finish;
+            const greenRocket = loadedImages.greenRocket;
+            const orangeRocket = loadedImages.orangeRocket;
 
-GREEN_ROCKET = scale_image(pygame.image.load("imgs/green-rocket.png"), 0.25)
-ORANGE_ROCKET = scale_image(pygame.image.load("imgs/orange-rocket.png"), 0.25)
+            // Draw function
+            function draw() {
+                ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-WIDTH, HEIGHT = TRACK.get_width(), TRACK.get_height()
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Sol Hearts!")
+                // Draw background
+                ctx.drawImage(space, 0, 0, WIDTH, HEIGHT);
 
-MAIN_FONT = pygame.font.SysFont("comicsans", 44)
+                // Draw track
+                ctx.drawImage(track, 0, 0, WIDTH, HEIGHT);
 
-async def main():
-FPS = 60
-PATH = [(175, 119), (110, 70), (56, 133), (70, 481), (318, 731), (404, 680), (418, 521), (507, 475), (600, 551), (613, 715), (736, 713),
-        (734, 399), (611, 357), (409, 343), (433, 257), (697, 258), (738, 123), (581, 71), (303, 78), (275, 377), (176, 388), (178, 260)]
+                // Draw track border
+                ctx.drawImage(trackBorder, 0, 0, WIDTH, HEIGHT);
 
+                // Draw finish line
+                ctx.drawImage(finish, 130, 250);
+
+                // Draw green rocket
+                ctx.drawImage(greenRocket, 100, 100);
+
+                // Draw orange rocket
+                ctx.drawImage(orangeRocket, 200, 200);
+            }
+
+            // Call draw function
+            draw();
+        }
+
+        // Start preloading images
+        preloadImages();
+    </script>
+</body>
+</html>
 
 class GameInfo:
     LEVELS = 10
