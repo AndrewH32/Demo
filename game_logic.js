@@ -1,4 +1,4 @@
-# game_logic.py
+# game_logic.js
 
 import pygame
 from inputs import get_gamepad
