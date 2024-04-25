@@ -27,13 +27,7 @@
 
     <h1>Pygame in Browser</h1>
     <canvas id="main.py" width="800" height="600"></canvas>
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
-    <script type="text/javascript">
-        languagePluginLoader.then(() => {
-            // Load Pygame script
-            pyodide.loadPackage(['numpy']).then(() => {
-                pyodide.runPythonAsync(`
-                 
+
 import pygame
 from inputs import get_gamepad
 import time
