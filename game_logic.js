@@ -1,291 +1,319 @@
-# game_logic.js
-
-import pygame
-from inputs import get_gamepad
-import time
-import math
-from utils import scale_image, blit_rotate_center, blit_text_center
-pygame.font.init()
-
-
-SPACE = scale_image(pygame.image.load("imgs/space.jpg"), 2.5)
-TRACK = scale_image(pygame.image.load("imgs/track.png"), 0.9)
-
-TRACK_BORDER = scale_image(pygame.image.load("imgs/track-border.png"), 0.9)
-TRACK_BORDER_MASK = pygame.mask.from_surface(TRACK_BORDER)
-
-FINISH = pygame.image.load("imgs/finish.png")
-FINISH_MASK = pygame.mask.from_surface(FINISH)
-FINISH_POSITION = (130, 250)
-
-GREEN_ROCKET = scale_image(pygame.image.load("imgs/green-rocket.png"), 0.25)
-ORANGE_ROCKET = scale_image(pygame.image.load("imgs/orange-rocket.png"), 0.25)
-
-WIDTH, HEIGHT = TRACK.get_width(), TRACK.get_height()
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Sol Hearts!")
-
-MAIN_FONT = pygame.font.SysFont("comicsans", 44)
-
-FPS = 60
-PATH = [(175, 119), (110, 70), (56, 133), (70, 481), (318, 731), (404, 680), (418, 521), (507, 475), (600, 551), (613, 715), (736, 713),
-        (734, 399), (611, 357), (409, 343), (433, 257), (697, 258), (738, 123), (581, 71), (303, 78), (275, 377), (176, 388), (178, 260)]
-
-class GameInfo:
-    LEVELS = 10
-
-    def __init__(self, level=1):
-        self.level = level
-        self.started = False
-        self.level_start_time = 0
-
-    def next_level(self):
-        self.level += 1
-        self.started = False
-
-    def reset(self):
-        self.level = 1
-        self.started = False
-        self.level_start_time = 0
-
-    def game_finished(self):
-        return self.level > self.LEVELS
-
-    def start_level(self):
-        self.started = True
-        self.level_start_time = time.time()
-
-    def get_level_time(self):
-        if not self.started:
-            return 0
-        return round(time.time() - self.level_start_time)
-
-
-class AbstractCar:
-    def __init__(self, max_vel, rotation_vel):
-        self.img = self.IMG
-        self.max_vel = max_vel
-        self.vel = 0
-        self.rotation_vel = rotation_vel
-        self.angle = 0
-        self.x, self.y = self.START_POS
-        self.acceleration = 0.1
-
-    def rotate(self, left=False, right=False):
-        if left:
-            self.angle += self.rotation_vel
-        elif right:
-            self.angle -= self.rotation_vel
-
-    def draw(self, win):
-        blit_rotate_center(win, self.img, (self.x, self.y), self.angle)
-
-    def move_forward(self):
-        self.vel = min(self.vel + self.acceleration, self.max_vel)
-        self.move()
-
-    def move_backward(self):
-        self.vel = max(self.vel - self.acceleration, -self.max_vel/2)
-        self.move()
-
-    def move(self):
-        radians = math.radians(self.angle)
-        vertical = math.cos(radians) * self.vel
-        horizontal = math.sin(radians) * self.vel
-
-        self.y -= vertical
-        self.x -= horizontal
-
-    def collide(self, mask, x=0, y=0):
-        car_mask = pygame.mask.from_surface(self.img)
-        offset = (int(self.x - x), int(self.y - y))
-        poi = mask.overlap(car_mask, offset)
-        return poi
-
-    def reset(self):
-        self.x, self.y = self.START_POS
-        self.angle = 0
-        self.vel = 0
-
-
-class PlayerCar(AbstractCar):
-    IMG = GREEN_ROCKET
-    START_POS = (180, 200)
-
-    def reduce_speed(self):
-        self.vel = max(self.vel - self.acceleration / 2, 0)
-        self.move()
-
-    def bounce(self):
-        self.vel = -self.vel
-        self.move()
-
-
-class ComputerCar(AbstractCar):
-    IMG = ORANGE_ROCKET
-    START_POS = (150, 200)
-
-    def __init__(self, max_vel, rotation_vel, path=[]):
-        super().__init__(max_vel, rotation_vel)
-        self.path = path
-        self.current_point = 0
-        self.vel = max_vel
-
-    def draw_points(self, win):
-        for point in self.path:
-            pygame.draw.circle(win, (255, 0, 0), point, 5)
-
-    def draw(self, win):
-        super().draw(win)
-        # self.draw_points(win)
-
-    def calculate_angle(self):
-        target_x, target_y = self.path[self.current_point]
-        x_diff = target_x - self.x
-        y_diff = target_y - self.y
-
-        if y_diff == 0:
-            desired_radian_angle = math.pi / 2
-        else:
-            desired_radian_angle = math.atan(x_diff / y_diff)
-
-        if target_y > self.y:
-            desired_radian_angle += math.pi
-
-        difference_in_angle = self.angle - math.degrees(desired_radian_angle)
-        if difference_in_angle >= 180:
-            difference_in_angle -= 360
-
-        if difference_in_angle > 0:
-            self.angle -= min(self.rotation_vel, abs(difference_in_angle))
-        else:
-            self.angle += min(self.rotation_vel, abs(difference_in_angle))
-
-    def update_path_point(self):
-        target = self.path[self.current_point]
-        rect = pygame.Rect(
-            self.x, self.y, self.img.get_width(), self.img.get_height())
-        if rect.collidepoint(*target):
-            self.current_point += 1
-
-    def move(self):
-        if self.current_point >= len(self.path):
-            return
-
-        self.calculate_angle()
-        self.update_path_point()
-        super().move()
-
-    def next_level(self, level):
-        self.reset()
-        self.vel = self.max_vel + (level - 1) * 0.2
-        self.current_point = 0
-
-
-def draw(win, images, player_car, computer_car, game_info):
-    for img, pos in images:
-        win.blit(img, pos)
-
-    level_text = MAIN_FONT.render(
-        f"Level {game_info.level}", 1, (255, 255, 255))
-    win.blit(level_text, (10, HEIGHT - level_text.get_height() - 70))
-
-    time_text = MAIN_FONT.render(
-        f"Time: {game_info.get_level_time()}s", 1, (255, 255, 255))
-    win.blit(time_text, (10, HEIGHT - time_text.get_height() - 40))
-
-    vel_text = MAIN_FONT.render(
-        f"Vel: {round(player_car.vel, 1)}px/s", 1, (255, 255, 255))
-    win.blit(vel_text, (10, HEIGHT - vel_text.get_height() - 10))
-
-    player_car.draw(win)
-    computer_car.draw(win)
-    pygame.display.update()
-
-
-def move_player(player_car):
-    keys = pygame.key.get_pressed()
-    moved = False
-
-    if keys[pygame.K_k]:
-        player_car.rotate(left=True)
-    if keys[pygame.K_l]:
-        player_car.rotate(right=True)
-    if keys[pygame.K_w]:
-        moved = True
-        player_car.move_forward()
-    if keys[pygame.K_s]:
-        moved = True
-        player_car.move_backward()
-
-    if not moved:
-        player_car.reduce_speed()
-
-
-def handle_collision(player_car, computer_car, game_info):
-    if player_car.collide(TRACK_BORDER_MASK) != None:
-        player_car.bounce()
-
-    computer_finish_poi_collide = computer_car.collide(
-        FINISH_MASK, *FINISH_POSITION)
-    if computer_finish_poi_collide != None:
-        blit_text_center(WIN, MAIN_FONT, "You lost!")
-        pygame.display.update()
-        pygame.time.wait(5000)
-        game_info.reset()
-        player_car.reset()
-        computer_car.reset()
-
-    player_finish_poi_collide = player_car.collide(
-        FINISH_MASK, *FINISH_POSITION)
-    if player_finish_poi_collide != None:
-        if player_finish_poi_collide[1] == 0:
-            player_car.bounce()
-        else:
-            game_info.next_level()
-            player_car.reset()
-            computer_car.next_level(game_info.level)
-
-run = True
-clock = pygame.time.Clock()
-images = [(SPACE, (0, 0)), (TRACK, (0, 0)),
-           (FINISH, FINISH_POSITION), (TRACK_BORDER, (0, 0))]
-player_car = PlayerCar(4, 4)
-computer_car = ComputerCar(1, 4, PATH)
-game_info = GameInfo()
-
-while run:
-    clock.tick(FPS)
-    draw(WIN, images, player_car, computer_car, game_info)
-
-await asyncio.sleep(0)
-    while not game_info.started:
-        blit_text_center(
-            WIN, MAIN_FONT, f"Press any key to start level {game_info.level}!")
-        pygame.display.update()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                break
-
-            if event.type == pygame.KEYDOWN:
-                game_info.start_level()
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-            break
-
-    move_player(player_car)
-    computer_car.move()
-
-    handle_collision(player_car, computer_car, game_info)
-
-    if game_info.game_finished():
-        blit_text_center(WIN, MAIN_FONT, "You won the game!")
-        pygame.time.wait(5000)
-        game_info.reset()
-        player_car.reset()
-        computer_car.reset()
-
-pygame.run(main)())
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const SPACE = new Image();
+SPACE.src = "imgs/space.jpg";
+
+const TRACK = new Image();
+TRACK.src = "imgs/track.png";
+
+const TRACK_BORDER = new Image();
+TRACK_BORDER.src = "imgs/track-border.png";
+
+const FINISH = new Image();
+FINISH.src = "imgs/finish.png";
+
+const GREEN_ROCKET = new Image();
+GREEN_ROCKET.src = "imgs/green-rocket.png";
+
+const ORANGE_ROCKET = new Image();
+ORANGE_ROCKET.src = "imgs/orange-rocket.png";
+
+const MAIN_FONT = "44px sans-serif";
+
+const FPS = 60;
+const PATH = [
+  [175, 119], [110, 70], [56, 133], [70, 481], [318, 731], [404, 680], 
+  [418, 521], [507, 475], [600, 551], [613, 715], [736, 713], [734, 399], 
+  [611, 357], [409, 343], [433, 257], [697, 258], [738, 123], [581, 71], 
+  [303, 78], [275, 377], [176, 388], [178, 260]
+];
+
+class GameInfo {
+  constructor() {
+    this.LEVELS = 10;
+    this.level = 1;
+    this.started = false;
+    this.level_start_time = 0;
+  }
+
+  next_level() {
+    this.level += 1;
+    this.started = false;
+  }
+
+  reset() {
+    this.level = 1;
+    this.started = false;
+    this.level_start_time = 0;
+  }
+
+  game_finished() {
+    return this.level > this.LEVELS;
+  }
+
+  start_level() {
+    this.started = true;
+    this.level_start_time = Date.now();
+  }
+
+  get_level_time() {
+    if (!this.started) return 0;
+    return Math.round((Date.now() - this.level_start_time) / 1000);
+  }
+}
+
+class AbstractCar {
+  constructor(max_vel, rotation_vel, img, start_pos) {
+    this.img = img;
+    this.max_vel = max_vel;
+    this.vel = 0;
+    this.rotation_vel = rotation_vel;
+    this.angle = 0;
+    this.x = start_pos[0];
+    this.y = start_pos[1];
+    this.acceleration = 0.1;
+  }
+
+  rotate(left = false, right = false) {
+    if (left) {
+      this.angle += this.rotation_vel;
+    } else if (right) {
+      this.angle -= this.rotation_vel;
+    }
+  }
+
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.drawImage(this.img, -this.img.width / 2, -this.img.height / 2);
+    ctx.restore();
+  }
+
+  move_forward() {
+    this.vel = Math.min(this.vel + this.acceleration, this.max_vel);
+    this.move();
+  }
+
+  move_backward() {
+    this.vel = Math.max(this.vel - this.acceleration, -this.max_vel / 2);
+    this.move();
+  }
+
+  move() {
+    const radians = this.angle * (Math.PI / 180);
+    const vertical = Math.cos(radians) * this.vel;
+    const horizontal = Math.sin(radians) * this.vel;
+    this.y -= vertical;
+    this.x -= horizontal;
+  }
+
+  collide(mask, x = 0, y = 0) {
+    const car_mask = new ImageData(this.img.width, this.img.height);
+    ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height);
+    const car_pixels = ctx.getImageData(0, 0, this.img.width, this.img.height);
+    car_mask.data.set(car_pixels.data);
+    const poi = overlapMask(car_mask, mask, this.x - x, this.y - y);
+    return poi;
+  }
+
+  reset() {
+    this.x = this.START_POS[0];
+    this.y = this.START_POS[1];
+    this.angle = 0;
+    this.vel = 0;
+  }
+}
+
+class PlayerCar extends AbstractCar {
+  constructor() {
+    super(4, 4, GREEN_ROCKET, [180, 200]);
+  }
+
+  reduce_speed() {
+    this.vel = Math.max(this.vel - this.acceleration / 2, 0);
+    this.move();
+  }
+
+  bounce() {
+    this.vel = -this.vel;
+    this.move();
+  }
+}
+
+class ComputerCar extends AbstractCar {
+  constructor() {
+    super(1, 4, ORANGE_ROCKET, [150, 200]);
+    this.path = PATH;
+    this.current_point = 0;
+    this.vel = 1;
+  }
+
+  calculate_angle() {
+    const [target_x, target_y] = this.path[this.current_point];
+    const x_diff = target_x - this.x;
+    const y_diff = target_y - this.y;
+    let desired_radian_angle;
+    if (y_diff === 0) {
+      desired_radian_angle = Math.PI / 2;
+    } else {
+      desired_radian_angle = Math.atan(x_diff / y_diff);
+    }
+    if (target_y > this.y) {
+      desired_radian_angle += Math.PI;
+    }
+    const difference_in_angle = this.angle - (desired_radian_angle * 180) / Math.PI;
+    if (difference_in_angle >= 180) {
+      difference_in_angle -= 360;
+    }
+    if (difference_in_angle > 0) {
+      this.angle -= Math.min(this.rotation_vel, Math.abs(difference_in_angle));
+    } else {
+      this.angle += Math.min(this.rotation_vel, Math.abs(difference_in_angle));
+    }
+  }
+
+  update_path_point() {
+    const target = this.path[this.current_point];
+    const rect = {
+      left: this.x,
+      top: this.y,
+      right: this.x + this.img.width,
+      bottom: this.y + this.img.height
+    };
+    if (rect.left <= target[0] && target[0] <= rect.right &&
+        rect.top <= target[1] && target[1] <= rect.bottom) {
+      this.current_point += 1;
+    }
+  }
+
+  move() {
+    if (this.current_point >= this.path.length) return;
+    this.calculate_angle();
+    this.update_path_point();
+    super.move();
+  }
+
+  next_level(level) {
+    this.reset();
+    this.vel = this.max_vel + (level - 1) * 0.2;
+    this.current_point = 0;
+  }
+}
+
+function overlapMask(mask1, mask2, offsetX, offsetY) {
+  const xStart = Math.max(0, offsetX);
+  const xEnd = Math.min(mask1.width, mask2.width + offsetX);
+  const yStart = Math.max(0, offsetY);
+  const yEnd = Math.min(mask1.height, mask2.height + offsetY);
+
+  for (let x = xStart; x < xEnd; x++) {
+    for (let y = yStart; y < yEnd; y++) {
+      if (mask1.data[(y * mask1.width + x) * 4 + 3] !== 0 && 
+          mask2.data[((y - offsetY) * mask2.width + (x - offsetX)) * 4 + 3] !== 0) {
+        return [x - xStart, y - yStart];
+      }
+    }
+  }
+  return null;
+}
+
+const player_car = new PlayerCar();
+const computer_car = new ComputerCar();
+const game_info = new GameInfo();
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(SPACE, 0, 0);
+  ctx.drawImage(TRACK, 0, 0);
+  ctx.drawImage(FINISH, 130, 250);
+  ctx.drawImage(TRACK_BORDER, 0, 0);
+
+  const level_text = `Level ${game_info.level}`;
+  ctx.font = MAIN_FONT;
+  ctx.fillStyle = "white";
+  ctx.fillText(level_text, 10, canvas.height - 70);
+
+  const time_text = `Time: ${game_info.get_level_time()}s`;
+  ctx.fillText(time_text, 10, canvas.height - 40);
+
+  const vel_text = `Vel: ${player_car.vel.toFixed(1)}px/s`;
+  ctx.fillText(vel_text, 10, canvas.height - 10);
+
+  player_car.draw();
+  computer_car.draw();
+
+  requestAnimationFrame(draw);
+}
+
+function move_player() {
+  const keys = {};
+  document.addEventListener("keydown", (event) => {
+    keys[event.key] = true;
+  });
+  document.addEventListener("keyup", (event) => {
+    keys[event.key] = false;
+  });
+
+  const moved = false;
+  if (keys["k"]) {
+    player_car.rotate(left = true);
+  }
+  if (keys["l"]) {
+    player_car.rotate(right = true);
+  }
+  if (keys["w"]) {
+    player_car.move_forward();
+  }
+  if (keys["s"]) {
+    player_car.move_backward();
+  }
+
+  if (!moved) {
+    player_car.reduce_speed();
+  }
+}
+
+function handle_collision() {
+  if (player_car.collide(TRACK_BORDER_MASK) !== null) {
+    player_car.bounce();
+  }
+
+  const computer_finish_poi_collide = computer_car.collide(FINISH_MASK, 130, 250);
+  if (computer_finish_poi_collide !== null) {
+    alert("You lost!");
+    game_info.reset();
+    player_car.reset();
+    computer_car.reset();
+  }
+
+  const player_finish_poi_collide = player_car.collide(FINISH_MASK, 130, 250);
+  if (player_finish_poi_collide !== null) {
+    if (player_finish_poi_collide[1] === 0) {
+      player_car.bounce();
+    } else {
+      game_info.next_level();
+      player_car.reset();
+      computer_car.next_level(game_info.level);
+    }
+  }
+}
+
+function gameLoop() {
+  draw();
+  move_player();
+  computer_car.move();
+  handle_collision();
+
+  if (game_info.game_finished()) {
+    alert("You won the game!");
+    game_info.reset();
+    player_car.reset();
+    computer_car.reset();
+  } else {
+    requestAnimationFrame(gameLoop);
+  }
+}
+
+gameLoop();
