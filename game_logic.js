@@ -1,124 +1,8 @@
  <script>
-            // Define all your variables and functions here
-
             const canvas = document.getElementById("gameCanvas");
             const ctx = canvas.getContext("2d");
 
-            // Define the updated scaleImage function
-            function scaleImage(img, factor) {
-                if (img.width === 0 || img.height === 0) {
-                    console.error("Image dimensions are zero.");
-                    return null;
-                }
-                
-                const width = Math.round(img.width * factor);
-                const height = Math.round(img.height * factor);
-                if (width === 0 || height === 0) {
-                    console.error("Scaled image dimensions are zero.");
-                    return null;
-                }
-                
-                const scaledCanvas = document.createElement('canvas');
-                scaledCanvas.width = width;
-                scaledCanvas.height = height;
-                const scaledCtx = scaledCanvas.getContext('2d');
-                scaledCtx.drawImage(img, 0, 0, width, height);
-                return scaledCanvas;
-            }
-
-            // Rest of your code goes here...
-        </script>
-    </section>
-
-    <section id="contact">
-        <h2>Contact Me</h2>
-        <p>You can reach me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a>, <a href="tel:720-290-8971">720-290-8971</a></p>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 Andrew Hensley</p>
-    </footer>
-</body>
-</html>
-You can now fill in the rest of your code within the <script> tag where it says "Rest of your code goes here..." and utilize the scaleImage function as needed. Make sure to handle cases where the image dimensions are zero to avoid errors.
-
-
-
-User
-add all previous code.
-ChatGPT
-Here's the entire code including all previous adjustments:
-
-html
-Copy code
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sol-Hearts</title>
-    <link rel="stylesheet" href="Sol-Hearts-Styles.css"> <!-- Link to custom CSS file for styling -->
-    <style>
-        /* Define any CSS styles for your canvas here */
-        canvas {
-            border: 1px solid black;
-            display: block;
-            margin: 0 auto; /* Center the canvas */
-        }
-    </style>
-</head>
-<body>
-    
-    <header>
-        <h1>Sol-Hearts</h1>
-        <nav>
-            <ul>
-                <li><a href="#design">Design Document</a></li>
-                <li><a href="#game">Game</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section id="design">
-        <h2>Design Document</h2>
-        <iframe src="Sol Hearts.pdf" title="Sol-Hearts" width="800" height="600" frameborder="0"></iframe>
-    </section>
-
-    <section id="game">
-        <h2>Game</h2>
-        <!-- Canvas for the game -->
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
-        <script>
-            // Define all your variables and functions here
-
-            const canvas = document.getElementById("gameCanvas");
-            const ctx = canvas.getContext("2d");
-
-            // Define the updated scaleImage function
-            function scaleImage(img, factor) {
-                if (img.width === 0 || img.height === 0) {
-                    console.error("Image dimensions are zero.");
-                    return null;
-                }
-                
-                const width = Math.round(img.width * factor);
-                const height = Math.round(img.height * factor);
-                if (width === 0 || height === 0) {
-                    console.error("Scaled image dimensions are zero.");
-                    return null;
-                }
-                
-                const scaledCanvas = document.createElement('canvas');
-                scaledCanvas.width = width;
-                scaledCanvas.height = height;
-                const scaledCtx = scaledCanvas.getContext('2d');
-                scaledCtx.drawImage(img, 0, 0, width, height);
-                return scaledCanvas;
-            }
-
-            // Rest of your code goes here...
-
+            // Define image URLs
             const SPACE = new Image();
             SPACE.src = "imgs/space.jpg";
 
@@ -136,9 +20,41 @@ Copy code
 
             const MAIN_FONT = "44px sans-serif";
 
-            // Define game logic variables and functions...
+            // Game logic variables
+            const game_info = {
+                level: 1,
+                get_level_time: function() {
+                    // Your logic to get the level time
+                    return 60; // Example time
+                }
+            };
+
+            const player_car = {
+                x: 100,
+                y: 100,
+                angle: 0,
+                vel: 0 // Example velocity
+            };
+
+            const computer_car = {
+                x: 200,
+                y: 200,
+                angle: 0,
+                vel: 0 // Example velocity
+            };
 
             // Define utility functions
+            function scaleImage(img, factor) {
+                const width = Math.round(img.width * factor);
+                const height = Math.round(img.height * factor);
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const scaledCtx = canvas.getContext('2d');
+                scaledCtx.drawImage(img, 0, 0, width, height);
+                return canvas;
+            }
+
             function blitRotateCenter(ctx, image, topLeft, angle) {
                 ctx.save();
                 ctx.translate(topLeft[0] + image.width / 2, topLeft[1] + image.height / 2);
