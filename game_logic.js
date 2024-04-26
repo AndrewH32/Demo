@@ -1,3 +1,4 @@
+
             const canvas = document.getElementById("gameCanvas");
             const ctx = canvas.getContext("2d");
 
@@ -249,13 +250,6 @@
             const player_car = new PlayerCar();
             const computer_car = new ComputerCar();
 
-            // Load track mask
-            const TRACK_BORDER_MASK = new Image();
-            TRACK_BORDER_MASK.onload = () => {
-                gameLoop();
-            };
-            TRACK_BORDER_MASK.src = "imgs/track-border-mask.png";
-
             document.addEventListener("keydown", (event) => {
                 if (!game_info.started) {
                     game_info.start_level();
@@ -285,4 +279,7 @@
                         break;
                 }
             });
+
+            // Start the game loop
+            gameLoop();
         
