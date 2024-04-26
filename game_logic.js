@@ -23,14 +23,28 @@
 
             const MAIN_FONT = "44px sans-serif";
 
-            const PATH = [
-                [150, 100],
-                [100, 400],
-                [500, 200],
-                [600, 500],
-                [300, 500],
-                [100, 300]
-            ];
+            // Define game logic variables and functions...
+            let TRACK_BORDER_MASK;
+
+            // Load track border image
+            TRACK_BORDER.onload = function() {
+                const maskCanvas = document.createElement('canvas');
+                maskCanvas.width = TRACK_BORDER.width;
+                maskCanvas.height = TRACK_BORDER.height;
+                const maskCtx = maskCanvas.getContext('2d');
+                maskCtx.drawImage(TRACK_BORDER, 0, 0);
+                const imageData = maskCtx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
+                const isOpaque = (x, y) => {
+                    const index = (y * maskCanvas.width + x) * 4;
+                    return imageData.data[index + 3] > 0; // Check alpha channel
+                };
+                TRACK_BORDER_MASK = [];
+                for (let y = 0; y < maskCanvas.height; y++) {
+                    for (let x = 0; x < maskCanvas.width; x++) {
+                        TRACK_BORDER_MASK.push(isOpaque(x, y));
+                    }
+                }
+            };
 
             class GameInfo {
                 constructor() {
@@ -94,83 +108,42 @@
                     ctx.restore();
                 }
 
-                move_forward() {
-                    this.vel = Math.min(this.vel + this.acceleration, this.max_vel);
-                    this.move();
-                }
-
-                move_backward() {
-                    this.vel = Math.max(this.vel - this.acceleration, -this.max_vel / 2);
-                    this.move();
-                }
-
                 move() {
-                    const radians = this.angle * (Math.PI / 180);
-                    const vertical = Math.cos(radians) * this.vel;
-                    const horizontal = Math.sin(radians) * this.vel;
-                    this.y -= vertical;
-                    this.x -= horizontal;
-                }
-
-                collide(mask, x = 0, y = 0) {
-                    const car_mask = new ImageData(this.img.width, this.img.height);
-                    ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height);
-                    const car_pixels = ctx.getImageData(0, 0, this.img.width, this.img.height);
-                    car_mask.data.set(car_pixels.data);
-                    const poi = overlapMask(car_mask, mask, this.x - x, this.y - y);
-                    return poi;
-                }
-
-                reset() {
-                    this.x = this.START_POS[0];
-                    this.y = this.START_POS[1];
-                    this.angle = 0;
-                    this.vel = 0;
+                    const angle_rad = this.angle * Math.PI / 180;
+                    const dx = this.vel * Math.cos(angle_rad);
+                    const dy = this.vel * Math.sin(angle_rad);
+                    this.x += dx;
+                    this.y += dy;
                 }
             }
 
             class PlayerCar extends AbstractCar {
-                constructor() {
-                    super(4, 4, GREEN_ROCKET, [180, 200]);
+                constructor(max_vel, rotation_vel, img, start_pos) {
+                    super(max_vel, rotation_vel, img, start_pos);
                 }
 
-                reduce_speed() {
-                    this.vel = Math.max(this.vel - this.acceleration / 2, 0);
-                    this.move();
+                accelerate() {
+                    if (this.vel < this.max_vel) {
+                        this.vel += this.acceleration;
+                    }
                 }
 
-                bounce() {
-                    this.vel = -this.vel;
-                    this.move();
+                brake() {
+                    if (this.vel > 0) {
+                        this.vel -= this.acceleration;
+                    }
                 }
             }
 
             class ComputerCar extends AbstractCar {
-                constructor() {
-                    super(1, 4, ORANGE_ROCKET, [150, 200]);
-                    this.path = PATH;
-                    this.current_point = 0;
-                    this.vel = 1;
-                }
-
-                calculate_angle() {
-                    const [target_x, target_y] = this.path[this.current_point];
-                    const x_diff = target_x - this.x;
-                    const y_diff = target_y - this.y;
-                    return (Math.atan2(y_diff, x_diff) * 180) / Math.PI;
-                }
-
-                move() {
-                    this.angle = this.calculate_angle();
-                    super.move();
-                    if (
-                        Math.abs(this.x - this.path[this.current_point][0]) < 5 &&
-                        Math.abs(this.y - this.path[this.current_point][1]) < 5
-                    ) {
-                        this.current_point = (this.current_point + 1) % this.path.length;
-                    }
+                constructor(max_vel, rotation_vel, img, start_pos) {
+                    super(max_vel, rotation_vel, img, start_pos);
                 }
             }
+
+            const game_info = new GameInfo();
+            const player_car = new PlayerCar(10, 5, GREEN_ROCKET, [canvas.width / 2, canvas.height / 2]);
+            const computer_car = new ComputerCar(8, 4, ORANGE_ROCKET, [canvas.width / 2, canvas.height / 3]);
 
             // Define utility functions
             function scaleImage(img, factor) {
@@ -200,86 +173,34 @@
                 ctx.fillText(text, x, y);
             }
 
-            function overlapMask(mask1, mask2, offsetX = 0, offsetY = 0) {
-                for (let y = 0; y < mask1.height; y++) {
-                    for (let x = 0; x < mask1.width; x++) {
-                        const index = (y * mask1.width + x) * 4;
-                        const r = mask1.data[index];
-                        const g = mask1.data[index + 1];
-                        const b = mask1.data[index + 2];
-                        const a = mask1.data[index + 3];
-                        if (a !== 0) {
-                            const overlappingPixel = mask2.data.slice(index, index + 4);
-                            if (overlappingPixel.every(val => val === 0)) {
-                                return [x + offsetX, y + offsetY];
-                            }
-                        }
-                    }
-                }
-                return null;
-            }
-
-            function handle_collision() {
-                const car_position = player_car.collide(TRACK_BORDER_MASK, 0, 0);
-                if (car_position) {
-                    player_car.bounce();
-                }
-
-                const computer_position = computer_car.collide(TRACK_BORDER_MASK, 0, 0);
-                if (computer_position) {
-                    computer_car.bounce();
-                }
-            }
-
-            function gameLoop() {
-                handle_collision();
+            // Game loop function
+            function draw() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(SPACE, 0, 0);
                 ctx.drawImage(TRACK, 0, 0);
                 ctx.drawImage(FINISH, 130, 250);
                 ctx.drawImage(TRACK_BORDER, 0, 0);
 
-                player_car.draw();
-                computer_car.draw();
+                const level_text = `Level ${game_info.level}`;
+                ctx.font = MAIN_FONT;
+                ctx.fillStyle = "white";
+                blitTextCenter(ctx, MAIN_FONT, level_text, 10, canvas.height - 70);
 
-                requestAnimationFrame(gameLoop);
+                const time_text = `Time: ${game_info.get_level_time()}s`;
+                blitTextCenter(ctx, MAIN_FONT, time_text, 10, canvas.height - 40);
+
+                const vel_text = `Vel: ${player_car.vel.toFixed(1)}px/s`;
+                blitTextCenter(ctx, MAIN_FONT, vel_text, 10, canvas.height - 10);
+
+                // Draw player car with rotation
+                blitRotateCenter(ctx, scaleImage(GREEN_ROCKET, 0.5), [player_car.x, player_car.y], player_car.angle);
+
+                // Draw computer car with rotation
+                blitRotateCenter(ctx, scaleImage(ORANGE_ROCKET, 0.5), [computer_car.x, computer_car.y], computer_car.angle);
+
+                requestAnimationFrame(draw);
             }
 
-            // Game setup
-            const game_info = new GameInfo();
-            const player_car = new PlayerCar();
-            const computer_car = new ComputerCar();
-
-            document.addEventListener("keydown", (event) => {
-                if (!game_info.started) {
-                    game_info.start_level();
-                }
-
-                switch (event.code) {
-                    case "ArrowUp":
-                        player_car.move_forward();
-                        break;
-                    case "ArrowDown":
-                        player_car.reduce_speed();
-                        break;
-                    case "ArrowLeft":
-                        player_car.rotate(left = true);
-                        break;
-                    case "ArrowRight":
-                        player_car.rotate(right = true);
-                        break;
-                }
-            });
-
-            document.addEventListener("keyup", (event) => {
-                switch (event.code) {
-                    case "ArrowLeft":
-                    case "ArrowRight":
-                        player_car.rotate();
-                        break;
-                }
-            });
-
             // Start the game loop
-            gameLoop();
+            draw();
         
