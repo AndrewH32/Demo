@@ -37,7 +37,7 @@
         <!-- Canvas for the game -->
         <canvas id="gameCanvas" width="1000" height="1000"></canvas>
       
-     <script>
+       <script>
             const canvas = document.getElementById("gameCanvas");
             const ctx = canvas.getContext("2d");
 
@@ -62,43 +62,24 @@
 
             const MAIN_FONT = "44px sans-serif";
 
-            // Define game information class
-            class GameInfo {
+            // Define game logic variables and functions...
+
+            // Define player_car object
+            class PlayerCar {
                 constructor() {
-                    this.LEVELS = 10;
-                    this.level = 1;
-                    this.started = false;
-                    this.level_start_time = 0;
+                    // Add player car properties and methods here
                 }
-
-                next_level() {
-                    this.level += 1;
-                    this.started = false;
-                }
-
-                reset() {
-                    this.level = 1;
-                    this.started = false;
-                    this.level_start_time = 0;
-                }
-
-                game_finished() {
-                    return this.level > this.LEVELS;
-                }
-
-                start_level() {
-                    this.started = true;
-                    this.level_start_time = Date.now();
-                }
-
-                get_level_time() {
-                    if (!this.started) return 0;
-                    return Math.round((Date.now() - this.level_start_time) / 1000);
+            }
+            
+            // Define computer_car object
+            class ComputerCar {
+                constructor() {
+                    // Add computer car properties and methods here
                 }
             }
 
-            // Initialize game information
-            const game_info = new GameInfo();
+            const player_car = new PlayerCar();
+            const computer_car = new ComputerCar();
 
             // Define utility functions
             function scaleImage(img, factor) {
@@ -159,7 +140,6 @@
             // Start the game loop
             draw();
         </script>
-
         
     </section>
 
