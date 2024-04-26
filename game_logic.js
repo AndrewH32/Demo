@@ -1,4 +1,4 @@
-
+   <script>
             const canvas = document.getElementById("gameCanvas");
             const ctx = canvas.getContext("2d");
 
@@ -23,7 +23,15 @@
 
             const MAIN_FONT = "44px sans-serif";
 
-            // Define game logic variables and functions...
+            const PATH = [
+                [150, 100],
+                [100, 400],
+                [500, 200],
+                [600, 500],
+                [300, 500],
+                [100, 300]
+            ];
+
             class GameInfo {
                 constructor() {
                     this.LEVELS = 10;
@@ -149,47 +157,20 @@
                     const [target_x, target_y] = this.path[this.current_point];
                     const x_diff = target_x - this.x;
                     const y_diff = target_y - this.y;
-                    let desired_radian_angle;
-                    if (y_diff === 0) {
-                        desired_radian_angle = Math.PI / 2;
-                    } else {
-                        desired_radian_angle = Math.atan(x_diff / y_diff);
-                    }
-                    if (target_y > this.y) {
-                        desired_radian_angle += Math.PI;
-                    }
-                    const difference_in_angle = this.angle - (desired_radian_angle * 180) / Math.PI;
-                    if (difference_in_angle >= 180) {
-                        difference_in_angle -= 360;
-                    }
-                    if (difference_in_angle > 0) {
-                        this.angle -= Math.min(this.rotation_vel, Math.abs(difference_in_angle));
-                    } else {
-                        this.angle += Math.min(this.rotation_vel, Math.abs(difference_in_angle));
-                    }
-                }
-
-                update_path_point() {
-                    if (this.current_point === this.path.length - 1) {
-                        this.current_point = 0;
-                    } else {
-                        this.current_point += 1;
-                    }
+                    return (Math.atan2(y_diff, x_diff) * 180) / Math.PI;
                 }
 
                 move() {
-                    this.calculate_angle();
+                    this.angle = this.calculate_angle();
                     super.move();
-                    const distance_to_target = Math.sqrt((this.x - this.path[this.current_point][0]) ** 2 + (this.y - this.path[this.current_point][1]) ** 2);
-                    if (distance_to_target < 5) {
-                        this.update_path_point();
+                    if (
+                        Math.abs(this.x - this.path[this.current_point][0]) < 5 &&
+                        Math.abs(this.y - this.path[this.current_point][1]) < 5
+                    ) {
+                        this.current_point = (this.current_point + 1) % this.path.length;
                     }
                 }
             }
-
-            const game_info = new GameInfo();
-            const player_car = new PlayerCar();
-            const computer_car = new ComputerCar();
 
             // Define utility functions
             function scaleImage(img, factor) {
@@ -219,49 +200,90 @@
                 ctx.fillText(text, x, y);
             }
 
-            // Game loop function
-            function draw() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                // Draw background space image
-                ctx.drawImage(SPACE, 0, 0, canvas.width, canvas.height);
-                
-                // Scale factors for the track, finish line, and track border
-                const scaleTrack = 0.5;
-                const scaleFinish = 0.5;
-                const scaleBorder = 0.5;
-
-                // Draw scaled track
-                ctx.drawImage(TRACK, 0, 0, TRACK.width * scaleTrack, TRACK.height * scaleTrack);
-
-                // Draw scaled finish line
-                ctx.drawImage(FINISH, 130 * scaleFinish, 250 * scaleFinish, FINISH.width * scaleFinish, FINISH.height * scaleFinish);
-                
-                // Draw scaled track border
-                ctx.drawImage(TRACK_BORDER, 0, 0, TRACK_BORDER.width * scaleBorder, TRACK_BORDER.height * scaleBorder);
-
-                const level_text = `Level ${game_info.level}`;
-                ctx.font = MAIN_FONT;
-                ctx.fillStyle = "white";
-                blitTextCenter(ctx, MAIN_FONT, level_text, 10, canvas.height - 70);
-
-                const time_text = `Time: ${game_info.get_level_time()}s`;
-                blitTextCenter(ctx, MAIN_FONT, time_text, 10, canvas.height - 40);
-
-                const vel_text = `Vel: ${player_car.vel.toFixed(1)}px/s`;
-                blitTextCenter(ctx, MAIN_FONT, vel_text, 10, canvas.height - 10);
-
-                // Draw player car with rotation and scaling
-                const playerScale = 0.5; // Adjust as needed
-                blitRotateCenter(ctx, scaleImage(GREEN_ROCKET, playerScale), [player_car.x, player_car.y], player_car.angle);
-
-                // Draw computer car with rotation and scaling
-                const computerScale = 0.5; // Adjust as needed
-                blitRotateCenter(ctx, scaleImage(ORANGE_ROCKET, computerScale), [computer_car.x, computer_car.y], computer_car.angle);
-
-                requestAnimationFrame(draw);
+            function overlapMask(mask1, mask2, offsetX = 0, offsetY = 0) {
+                for (let y = 0; y < mask1.height; y++) {
+                    for (let x = 0; x < mask1.width; x++) {
+                        const index = (y * mask1.width + x) * 4;
+                        const r = mask1.data[index];
+                        const g = mask1.data[index + 1];
+                        const b = mask1.data[index + 2];
+                        const a = mask1.data[index + 3];
+                        if (a !== 0) {
+                            const overlappingPixel = mask2.data.slice(index, index + 4);
+                            if (overlappingPixel.every(val => val === 0)) {
+                                return [x + offsetX, y + offsetY];
+                            }
+                        }
+                    }
+                }
+                return null;
             }
 
-            // Start the game loop
-            draw();
-        
+            function handle_collision() {
+                const car_position = player_car.collide(TRACK_BORDER_MASK, 0, 0);
+                if (car_position) {
+                    player_car.bounce();
+                }
+
+                const computer_position = computer_car.collide(TRACK_BORDER_MASK, 0, 0);
+                if (computer_position) {
+                    computer_car.bounce();
+                }
+            }
+
+            function gameLoop() {
+                handle_collision();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(SPACE, 0, 0);
+                ctx.drawImage(TRACK, 0, 0);
+                ctx.drawImage(FINISH, 130, 250);
+                ctx.drawImage(TRACK_BORDER, 0, 0);
+
+                player_car.draw();
+                computer_car.draw();
+
+                requestAnimationFrame(gameLoop);
+            }
+
+            // Game setup
+            const game_info = new GameInfo();
+            const player_car = new PlayerCar();
+            const computer_car = new ComputerCar();
+
+            // Load track mask
+            const TRACK_BORDER_MASK = new Image();
+            TRACK_BORDER_MASK.onload = () => {
+                gameLoop();
+            };
+            TRACK_BORDER_MASK.src = "imgs/track-border-mask.png";
+
+            document.addEventListener("keydown", (event) => {
+                if (!game_info.started) {
+                    game_info.start_level();
+                }
+
+                switch (event.code) {
+                    case "ArrowUp":
+                        player_car.move_forward();
+                        break;
+                    case "ArrowDown":
+                        player_car.reduce_speed();
+                        break;
+                    case "ArrowLeft":
+                        player_car.rotate(left = true);
+                        break;
+                    case "ArrowRight":
+                        player_car.rotate(right = true);
+                        break;
+                }
+            });
+
+            document.addEventListener("keyup", (event) => {
+                switch (event.code) {
+                    case "ArrowLeft":
+                    case "ArrowRight":
+                        player_car.rotate();
+                        break;
+                }
+            });
+        </script>
