@@ -127,36 +127,11 @@ Copy code
         <h2>Game</h2>
         <!-- Canvas for the game -->
         <canvas id="gameCanvas" width="800" height="600"></canvas>
-        <script>
-            // Define all your variables and functions here
-
+       <script>
             const canvas = document.getElementById("gameCanvas");
             const ctx = canvas.getContext("2d");
 
-            // Define the updated scaleImage function
-            function scaleImage(img, factor) {
-                if (img.width === 0 || img.height === 0) {
-                    console.error("Image dimensions are zero.");
-                    return null;
-                }
-                
-                const width = Math.round(img.width * factor);
-                const height = Math.round(img.height * factor);
-                if (width === 0 || height === 0) {
-                    console.error("Scaled image dimensions are zero.");
-                    return null;
-                }
-                
-                const scaledCanvas = document.createElement('canvas');
-                scaledCanvas.width = width;
-                scaledCanvas.height = height;
-                const scaledCtx = scaledCanvas.getContext('2d');
-                scaledCtx.drawImage(img, 0, 0, width, height);
-                return scaledCanvas;
-            }
-
-            // Rest of your code goes here...
-
+            // Define image URLs
             const SPACE = new Image();
             SPACE.src = "imgs/space.jpg";
 
@@ -174,9 +149,41 @@ Copy code
 
             const MAIN_FONT = "44px sans-serif";
 
-            // Define game logic variables and functions...
+            // Game logic variables
+            const game_info = {
+                level: 1,
+                get_level_time: function() {
+                    // Your logic to get the level time
+                    return 60; // Example time
+                }
+            };
+
+            const player_car = {
+                x: 100,
+                y: 100,
+                angle: 0,
+                vel: 0 // Example velocity
+            };
+
+            const computer_car = {
+                x: 200,
+                y: 200,
+                angle: 0,
+                vel: 0 // Example velocity
+            };
 
             // Define utility functions
+            function scaleImage(img, factor) {
+                const width = Math.round(img.width * factor);
+                const height = Math.round(img.height * factor);
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const scaledCtx = canvas.getContext('2d');
+                scaledCtx.drawImage(img, 0, 0, width, height);
+                return canvas;
+            }
+
             function blitRotateCenter(ctx, image, topLeft, angle) {
                 ctx.save();
                 ctx.translate(topLeft[0] + image.width / 2, topLeft[1] + image.height / 2);
