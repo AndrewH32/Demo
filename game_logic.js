@@ -1,5 +1,29 @@
 
-            // Game Info
+            const canvas = document.getElementById("gameCanvas");
+            const ctx = canvas.getContext("2d");
+
+            // Define image URLs
+            const SPACE = new Image();
+            SPACE.src = "imgs/space.jpg";
+
+            const TRACK = new Image();
+            TRACK.src = "imgs/track.png";
+
+            const TRACK_BORDER = new Image();
+            TRACK_BORDER.src = "imgs/track-border.png";
+
+            const FINISH = new Image();
+            FINISH.src = "imgs/finish.png";
+
+            const GREEN_ROCKET = new Image();
+            GREEN_ROCKET.src = "imgs/green-rocket.png";
+
+            const ORANGE_ROCKET = new Image();
+            ORANGE_ROCKET.src = "imgs/orange-rocket.png";
+
+            const MAIN_FONT = "44px sans-serif";
+
+            // Define game logic variables and functions...
             class GameInfo {
                 constructor() {
                     this.LEVELS = 10;
@@ -34,8 +58,7 @@
                 }
             }
 
-            // Car class
-            class Car {
+            class AbstractCar {
                 constructor(max_vel, rotation_vel, img, start_pos) {
                     this.img = img;
                     this.max_vel = max_vel;
@@ -55,7 +78,7 @@
                     }
                 }
 
-                draw(ctx) {
+                draw() {
                     ctx.save();
                     ctx.translate(this.x, this.y);
                     ctx.rotate(this.angle);
@@ -98,8 +121,7 @@
                 }
             }
 
-            // Player Car class
-            class PlayerCar extends Car {
+            class PlayerCar extends AbstractCar {
                 constructor() {
                     super(4, 4, GREEN_ROCKET, [180, 200]);
                 }
@@ -115,8 +137,7 @@
                 }
             }
 
-            // Computer Car class
-            class ComputerCar extends Car {
+            class ComputerCar extends AbstractCar {
                 constructor() {
                     super(1, 4, ORANGE_ROCKET, [150, 200]);
                     this.path = PATH;
@@ -148,19 +169,54 @@
                     }
                 }
 
-                move() {
-                    this.calculate_angle();
-                    super.move_forward();
-                    if (this.vel === 0) {
-                        this.vel = 1;
-                    }
-                    if (Math.abs(this.x - this.path[this.current_point][0]) <= 10 && Math.abs(this.y - this.path[this.current_point][1]) <= 10) {
+                update_path_point() {
+                    if (this.current_point === this.path.length - 1) {
+                        this.current_point = 0;
+                    } else {
                         this.current_point += 1;
                     }
-                    if (this.current_point >= this.path.length) {
-                        this.current_point = 0;
+                }
+
+                move() {
+                    this.calculate_angle();
+                    super.move();
+                    const distance_to_target = Math.sqrt((this.x - this.path[this.current_point][0]) ** 2 + (this.y - this.path[this.current_point][1]) ** 2);
+                    if (distance_to_target < 5) {
+                        this.update_path_point();
                     }
                 }
+            }
+
+            const game_info = new GameInfo();
+            const player_car = new PlayerCar();
+            const computer_car = new ComputerCar();
+
+            // Define utility functions
+            function scaleImage(img, factor) {
+                const width = Math.round(img.width * factor);
+                const height = Math.round(img.height * factor);
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                return canvas;
+            }
+
+            function blitRotateCenter(ctx, image, topLeft, angle) {
+                ctx.save();
+                ctx.translate(topLeft[0] + image.width / 2, topLeft[1] + image.height / 2);
+                ctx.rotate(angle * Math.PI / 180);
+                ctx.drawImage(image, -image.width / 2, -image.height / 2);
+                ctx.restore();
+            }
+
+            function blitTextCenter(ctx, font, text, x, y) {
+                ctx.font = font;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = 'rgb(200, 200, 200)';
+                ctx.fillText(text, x, y);
             }
 
             // Game loop function
