@@ -9,6 +9,9 @@
             const TRACK = new Image();
             TRACK.src = "imgs/track.png";
 
+            const TRACK_BORDER = new Image();
+            TRACK_BORDER.src = "imgs/track-border.png";
+
             const FINISH = new Image();
             FINISH.src = "imgs/finish.png";
 
@@ -20,28 +23,43 @@
 
             const MAIN_FONT = "44px sans-serif";
 
-            // Game logic variables
-            const game_info = {
-                level: 1,
-                get_level_time: function() {
-                    // Your logic to get the level time
-                    return 60; // Example time
+            // Define game information class
+            class GameInfo {
+                constructor() {
+                    this.LEVELS = 10;
+                    this.level = 1;
+                    this.started = false;
+                    this.level_start_time = 0;
                 }
-            };
 
-            const player_car = {
-                x: 100,
-                y: 100,
-                angle: 0,
-                vel: 0 // Example velocity
-            };
+                next_level() {
+                    this.level += 1;
+                    this.started = false;
+                }
 
-            const computer_car = {
-                x: 200,
-                y: 200,
-                angle: 0,
-                vel: 0 // Example velocity
-            };
+                reset() {
+                    this.level = 1;
+                    this.started = false;
+                    this.level_start_time = 0;
+                }
+
+                game_finished() {
+                    return this.level > this.LEVELS;
+                }
+
+                start_level() {
+                    this.started = true;
+                    this.level_start_time = Date.now();
+                }
+
+                get_level_time() {
+                    if (!this.started) return 0;
+                    return Math.round((Date.now() - this.level_start_time) / 1000);
+                }
+            }
+
+            // Initialize game information
+            const game_info = new GameInfo();
 
             // Define utility functions
             function scaleImage(img, factor) {
@@ -50,8 +68,8 @@
                 const canvas = document.createElement('canvas');
                 canvas.width = width;
                 canvas.height = height;
-                const scaledCtx = canvas.getContext('2d');
-                scaledCtx.drawImage(img, 0, 0, width, height);
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
                 return canvas;
             }
 
@@ -77,6 +95,7 @@
                 ctx.drawImage(SPACE, 0, 0);
                 ctx.drawImage(TRACK, 0, 0);
                 ctx.drawImage(FINISH, 130, 250);
+                ctx.drawImage(TRACK_BORDER, 0, 0);
 
                 const level_text = `Level ${game_info.level}`;
                 ctx.font = MAIN_FONT;
@@ -100,4 +119,3 @@
 
             // Start the game loop
             draw();
-        
