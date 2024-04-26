@@ -25,18 +25,104 @@
 
             // Define game logic variables and functions...
 
+            class GameInfo {
+                constructor() {
+                    this.LEVELS = 10;
+                    this.level = 1;
+                    this.started = false;
+                    this.level_start_time = 0;
+                }
+
+                next_level() {
+                    this.level += 1;
+                    this.started = false;
+                }
+
+                reset() {
+                    this.level = 1;
+                    this.started = false;
+                    this.level_start_time = 0;
+                }
+
+                game_finished() {
+                    return this.level > this.LEVELS;
+                }
+
+                start_level() {
+                    this.started = true;
+                    this.level_start_time = Date.now();
+                }
+
+                get_level_time() {
+                    if (!this.started) return 0;
+                    return Math.round((Date.now() - this.level_start_time) / 1000);
+                }
+            }
+
+            const game_info = new GameInfo();
+
             // Define player_car object
             class PlayerCar {
                 constructor() {
-                    // Add player car properties and methods here
+                    this.max_vel = 4;
+                    this.rotation_vel = 4;
+                    this.img = GREEN_ROCKET;
+                    this.start_pos = [180, 200];
+                    this.angle = 0;
+                    this.x = this.start_pos[0];
+                    this.y = this.start_pos[1];
+                    this.vel = 0;
+                    this.acceleration = 0.1;
+                }
+
+                rotate(left = false, right = false) {
+                    if (left) {
+                        this.angle += this.rotation_vel;
+                    } else if (right) {
+                        this.angle -= this.rotation_vel;
+                    }
+                }
+
+                move_forward() {
+                    this.vel = Math.min(this.vel + this.acceleration, this.max_vel);
+                    this.move();
+                }
+
+                move_backward() {
+                    this.vel = Math.max(this.vel - this.acceleration, -this.max_vel / 2);
+                    this.move();
+                }
+
+                move() {
+                    const radians = this.angle * (Math.PI / 180);
+                    const vertical = Math.cos(radians) * this.vel;
+                    const horizontal = Math.sin(radians) * this.vel;
+                    this.y -= vertical;
+                    this.x -= horizontal;
+                }
+
+                reset() {
+                    this.x = this.start_pos[0];
+                    this.y = this.start_pos[1];
+                    this.angle = 0;
+                    this.vel = 0;
                 }
             }
             
             // Define computer_car object
             class ComputerCar {
                 constructor() {
-                    // Add computer car properties and methods here
+                    this.max_vel = 1;
+                    this.rotation_vel = 4;
+                    this.img = ORANGE_ROCKET;
+                    this.start_pos = [150, 200];
+                    this.path = []; // Add the path array here
+                    this.current_point = 0;
+                    this.vel = 1;
+                    this.acceleration = 0.1;
                 }
+
+                // Add methods for calculating angle, updating path point, moving, and next level here
             }
 
             const player_car = new PlayerCar();
@@ -100,4 +186,3 @@
 
             // Start the game loop
             draw();
-        
