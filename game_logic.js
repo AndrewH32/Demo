@@ -1,64 +1,65 @@
-     const canvas = document.getElementById("gameCanvas");
+     <script>
+            const canvas = document.getElementById("gameCanvas");
             const ctx = canvas.getContext("2d");
 
             // Define image URLs
             const SPACE = new Image();
-            SPACE.onload = function() {
-                console.log("Space image loaded successfully.");
-            };
-            SPACE.onerror = function() {
-                console.error("Error loading space image.");
-            };
             SPACE.src = "imgs/space.jpg";
 
             const TRACK = new Image();
-            TRACK.onload = function() {
-                console.log("Track image loaded successfully.");
-            };
-            TRACK.onerror = function() {
-                console.error("Error loading track image.");
-            };
             TRACK.src = "imgs/track.png";
 
             const TRACK_BORDER = new Image();
-            TRACK_BORDER.onload = function() {
-                console.log("Track border image loaded successfully.");
-            };
-            TRACK_BORDER.onerror = function() {
-                console.error("Error loading track border image.");
-            };
             TRACK_BORDER.src = "imgs/track-border.png";
 
             const FINISH = new Image();
-            FINISH.onload = function() {
-                console.log("Finish image loaded successfully.");
-            };
-            FINISH.onerror = function() {
-                console.error("Error loading finish image.");
-            };
             FINISH.src = "imgs/finish.png";
 
             const GREEN_ROCKET = new Image();
-            GREEN_ROCKET.onload = function() {
-                console.log("Green rocket image loaded successfully.");
-            };
-            GREEN_ROCKET.onerror = function() {
-                console.error("Error loading green rocket image.");
-            };
             GREEN_ROCKET.src = "imgs/green-rocket.png";
 
             const ORANGE_ROCKET = new Image();
-            ORANGE_ROCKET.onload = function() {
-                console.log("Orange rocket image loaded successfully.");
-            };
-            ORANGE_ROCKET.onerror = function() {
-                console.error("Error loading orange rocket image.");
-            };
             ORANGE_ROCKET.src = "imgs/orange-rocket.png";
 
             const MAIN_FONT = "44px sans-serif";
 
-            // Define game logic variables and functions...
+            // Define game information class
+            class GameInfo {
+                constructor() {
+                    this.LEVELS = 10;
+                    this.level = 1;
+                    this.started = false;
+                    this.level_start_time = 0;
+                }
+
+                next_level() {
+                    this.level += 1;
+                    this.started = false;
+                }
+
+                reset() {
+                    this.level = 1;
+                    this.started = false;
+                    this.level_start_time = 0;
+                }
+
+                game_finished() {
+                    return this.level > this.LEVELS;
+                }
+
+                start_level() {
+                    this.started = true;
+                    this.level_start_time = Date.now();
+                }
+
+                get_level_time() {
+                    if (!this.started) return 0;
+                    return Math.round((Date.now() - this.level_start_time) / 1000);
+                }
+            }
+
+            // Initialize game information
+            const game_info = new GameInfo();
 
             // Define utility functions
             function scaleImage(img, factor) {
@@ -118,3 +119,4 @@
 
             // Start the game loop
             draw();
+        </script>
