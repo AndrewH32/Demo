@@ -36,210 +36,121 @@
         <h2>Game</h2>
         <!-- Canvas for the game -->
         <canvas id="gameCanvas" width="800" height="600"></canvas>
-      <script>
-const pygame = require('pygame');
-const { get } = require('inputs');
-const time = require('time');
-const math = require('math');
-const { scale, blit, rotate, center, text } = require('utils');
+        <script>
+            const canvas = document.getElementById("gameCanvas");
+            const ctx = canvas.getContext("2d");
 
-pygame.font.init();
+            // Define image URLs
+            const SPACE = new Image();
+            SPACE.src = "imgs/space.jpg";
+            SPACE.onload = () => {
+                canvas.width = SPACE.width;
+                canvas.height = SPACE.height;
+                draw();
+            };
 
-const SPACE = scaleImage(pygame.image.load("imgs/space.jpg"), 2.5);
-const TRACK = scaleImage(pygame.image.load("imgs/track.png"), 0.9);
-const TRACK_BORDER = scaleImage(pygame.image.load("imgs/track-border.png"), 0.9);
-const TRACK_BORDER_MASK = pygame.mask.fromSurface(TRACK_BORDER);
-const FINISH = pygame.image.load("imgs/finish.png");
-const FINISH_MASK = pygame.mask.fromSurface(FINISH);
-const FINISH_POSITION = [130, 250];
-const GREEN_ROCKET = scaleImage(pygame.image.load("imgs/green-rocket.png"), 0.25);
-const ORANGE_ROCKET = scaleImage(pygame.image.load("imgs/orange-rocket.png"), 0.25);
+            const TRACK = new Image();
+            TRACK.src = "imgs/track.png";
 
-const [WIDTH, HEIGHT] = [TRACK.getWidth(), TRACK.getHeight()];
-const WIN = pygame.display.setMode([WIDTH, HEIGHT]);
-pygame.display.setCaption("Sol Hearts!");
-const MAIN_FONT = pygame.font.SysFont("comicsans", 44);
-const FPS = 60;
+            const FINISH = new Image();
+            FINISH.src = "imgs/finish.png";
 
-const PATH = [
-    [175, 119],
-    [110, 70],
-    [56, 133],
-    [70, 481],
-    [318, 731],
-    [404, 680],
-    [418, 521],
-    [507, 475],
-    [600, 551],
-    [613, 715],
-    [736, 713],
-    [734, 399],
-    [611, 357],
-    [409, 343],
-    [433, 257],
-    [697, 258],
-    [738, 123],
-    [581, 71],
-    [303, 78],
-    [275, 377],
-    [176, 388],
-    [178, 260]
-];
+            const GREEN_ROCKET = new Image();
+            GREEN_ROCKET.src = "imgs/green-rocket.png";
 
-class GameInfo {
-    static LEVELS = 10;
+            const ORANGE_ROCKET = new Image();
+            ORANGE_ROCKET.src = "imgs/orange-rocket.png";
 
-    constructor(level = 1) {
-        this.level = level;
-        this.started = false;
-        this.levelStartTime = 0;
-    }
+            const MAIN_FONT = "44px sans-serif";
 
-    nextLevel() {
-        this.level++;
-        this.started = false;
-    }
+            // Game logic variables
+            const gameInfo = {
+                level: 1,
+                getLevelTime() {
+                    // Your logic to get the level time
+                    return 60; // Example time
+                }
+            };
 
-    reset() {
-        this.level = 1;
-        this.started = false;
-        this.levelStartTime = 0;
-    }
+            const playerCar = {
+                x: 100,
+                y: 100,
+                angle: 0,
+                vel: 0,
+                image: GREEN_ROCKET,
+                draw(ctx) {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.drawImage(this.image, -this.image.width / 2, -this.image.height / 2);
+                    ctx.restore();
+                }
+            };
 
-    gameFinished() {
-        return this.level > this.LEVELS;
-    }
+            const computerCar = {
+                x: 200,
+                y: 200,
+                angle: 0,
+                vel: 0,
+                image: ORANGE_ROCKET,
+                draw(ctx) {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.drawImage(this.image, -this.image.width / 2, -this.image.height / 2);
+                    ctx.restore();
+                }
+            };
 
-    startLevel() {
-        this.started = true;
-        this.levelStartTime = time.time();
-    }
+            // Define utility functions
+            function draw() {
+                ctx.drawImage(SPACE, 0, 0);
 
-    getLevelTime() {
-        if (!this.started) return 0;
-        return Math.round(time.time() - this.levelStartTime);
-    }
-}
+                // Scale and draw the track image
+                const trackScale = 0.25; // Adjust as needed
+                ctx.drawImage(TRACK, 0, 0, TRACK.width * trackScale, TRACK.height * trackScale);
 
-class AbstractCar {
-    constructor(maxVel, rotationVel) {
-        this.img = this.IMG;
-        this.maxVel = maxVel;
-        this.vel = 0;
-        this.rotationVel = rotationVel;
-        this.angle = 0;
-        [this.x, this.y] = this.START_POS;
-        this.acceleration = 0.1;
-    }
+                // Scale and draw the finish line
+                const finishScale = trackScale; // Scale finish line to match track
+                ctx.drawImage(FINISH, 130 * finishScale, 250 * finishScale, FINISH.width * finishScale, FINISH.height * finishScale);
 
-    rotate(left = false, right = false) {
-        if (left) this.angle += this.rotationVel;
-        else if (right) this.angle -= this.rotationVel;
-    }
+                // Draw level text
+                const levelText = `Level ${gameInfo.level}`;
+                ctx.font = MAIN_FONT;
+                ctx.fillStyle = "white";
+                ctx.textAlign = 'center';
+                ctx.fillText(levelText, 10, canvas.height - 70);
 
-    draw(win) {
-        blitRotateCenter(win, this.img, [this.x, this.y], this.angle);
-    }
+                // Draw time text
+                const timeText = `Time: ${gameInfo.getLevelTime()}s`;
+                ctx.fillText(timeText, 10, canvas.height - 40);
 
-    moveForward() {
-        this.vel = Math.min(this.vel + this.acceleration, this.maxVel);
-        this.move();
-    }
+                // Draw velocity text
+                const velText = `Vel: ${playerCar.vel.toFixed(1)}px/s`;
+                ctx.fillText(velText, 10, canvas.height - 10);
 
-    moveBackward() {
-        this.vel = Math.max(this.vel - this.acceleration, -this.maxVel / 2);
-        this.move();
-    }
+                // Draw player car with rotation and scaling
+                const playerCarScale = 0.25; // Adjust as needed
+                ctx.save();
+                ctx.translate(playerCar.x, playerCar.y);
+                ctx.rotate(playerCar.angle);
+                ctx.drawImage(playerCar.image, -playerCar.image.width / 2, -playerCar.image.height / 2, playerCar.image.width * playerCarScale, playerCar.image.height * playerCarScale);
+                ctx.restore();
 
-    move() {
-        const radians = math.radians(this.angle);
-        const vertical = math.cos(radians) * this.vel;
-        const horizontal = math.sin(radians) * this.vel;
-        this.y -= vertical;
-        this.x -= horizontal;
-    }
+                // Draw computer car with rotation and scaling
+                const computerCarScale = 0.25; // Adjust as needed
+                ctx.save();
+                ctx.translate(computerCar.x, computerCar.y);
+                ctx.rotate(computerCar.angle);
+                ctx.drawImage(computerCar.image, -computerCar.image.width / 2, -computerCar.image.height / 2, computerCar.image.width * computerCarScale, computerCar.image.height * computerCarScale);
+                ctx.restore();
 
-    collide(mask, x = 0, y = 0) {
-        const carMask = pygame.mask.fromSurface(this.img);
-        const offset = [parseInt(this.x - x), parseInt(this.y - y)];
-        const poi = mask.overlap(carMask, offset);
-        return poi;
-    }
+                requestAnimationFrame(draw);
+            }
 
-    reset() {
-        [this.x, this.y] = this.START_POS;
-        this.angle = 0;
-        this.vel = 0;
-    }
-}
-
-class PlayerCar extends AbstractCar {
-    static IMG = GREEN_ROCKET;
-    static START_POS = [180, 200];
-
-    reduceSpeed() {
-        this.vel = Math.max(this.vel - this.acceleration / 2, 0);
-        this.move();
-    }
-
-    bounce() {
-        this.vel = -this.vel;
-        this.move();
-    }
-}
-
-class ComputerCar extends AbstractCar {
-    static IMG = ORANGE_ROCKET;
-    static START_POS = [150, 200];
-
-    constructor(maxVel, rotationVel, path = []) {
-        super(maxVel, rotationVel);
-        this.path = path;
-        this.currentPoint = 0;
-        this.vel = maxVel;
-    }
-
-    drawPoints(win) {
-        for (const point of this.path) {
-            pygame.draw.circle(win, [255, 0, 0], point, 5);
-        }
-    }
-
-    draw(win) {
-        super.draw(win);
-        // this.drawPoints(win);
-    }
-
-    calculateAngle() {
-        const [targetX, targetY] = this.path[this.currentPoint];
-        const xDiff = targetX - this.x;
-        const yDiff = targetY - this.y;
-        let desiredRadianAngle;
-        if (yDiff === 0) {
-            desiredRadianAngle = Math.PI / 2;
-        } else {
-            desiredRadianAngle = Math.atan(xDiff / yDiff);
-        }
-        if (targetY > this.y) desiredRadianAngle += Math.PI;
-        let differenceInAngle = this.angle - math.degrees(desiredRadianAngle);
-        if (differenceInAngle >= 180) differenceInAngle -= 360;
-        if (differenceInAngle > 0) {
-            this.angle -= Math.min(this.rotationVel, Math.abs(differenceInAngle));
-        } else {
-            this.angle += Math.min(this.rotationVel, Math.abs(differenceInAngle));
-        }
-    }
-
-    updatePathPoint() {
-        const target = this.path[this.currentPoint];
-        const rect = new pygame.Rect(this.x, this.y);
-        if (rect.contains(target)) {
-            this.currentPoint++;
-            if (this.currentPoint >= this.path.length) this.currentPoint = 0;
-        }
-    }
-}
-    </script>
+            // Start the game loop
+            draw();
+        </script>
     </section>
 
     <section id="contact">
@@ -252,5 +163,3 @@ class ComputerCar extends AbstractCar {
     </footer>
 </body>
 </html>
-
-
