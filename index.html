@@ -108,11 +108,13 @@
 
                 // Scale and draw the track image
                 const trackScale = 0.25; // Adjust as needed
-                ctx.drawImage(TRACK, 0, 0, TRACK.width * trackScale, TRACK.height * trackScale);
+                const trackX = (canvas.width - TRACK.width * trackScale) / 2; // Calculate X position to center horizontally
+                const trackY = (canvas.height - TRACK.height * trackScale) / 2; // Calculate Y position to center vertically
+                ctx.drawImage(TRACK, trackX, trackY, TRACK.width * trackScale, TRACK.height * trackScale);
 
                 // Scale and draw the finish line
                 const finishScale = trackScale; // Scale finish line to match track
-                ctx.drawImage(FINISH, 130 * finishScale, 250 * finishScale, FINISH.width * finishScale, FINISH.height * finishScale);
+                ctx.drawImage(FINISH, (130 * finishScale) + trackX, (250 * finishScale) + trackY, FINISH.width * finishScale, FINISH.height * finishScale);
 
                 // Draw level text
                 const levelText = `Level ${gameInfo.level}`;
