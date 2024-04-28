@@ -68,9 +68,14 @@
                 level: 1,
                 getLevelTime() {
                     // Your logic to get the level time
-                    return 0; // Example time
+                    return 60; // Example time
                 }
             };
+
+            
+            const FPS = 60; // Frames per second
+            const frameDelay = 1000 / FPS; // Delay between frames in milliseconds
+            let lastFrameTime = 0;
 
             const playerCar = {
                 x: 245,
