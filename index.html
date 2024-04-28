@@ -111,9 +111,14 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draw the background and other static elements
-            ctx.drawImage(SPACE, 0, 0);
-            ctx.drawImage(TRACK, 0, 0);
-            ctx.drawImage(FINISH, 130, 250);
+            ctx.drawImage(SPACE, 0, 0, SPACE.width, SPACE.height);
+
+            // Scale and draw the track
+            ctx.drawImage(TRACK, 0, 0, SPACE.width, SPACE.height);
+
+            // Scale and draw the finish line
+            ctx.drawImage(FINISH, 130 * (SPACE.width / 1200), 250 * (SPACE.height / 1000),  // Adjusted positions and sizes
+                FINISH.width * (SPACE.width / 1200), FINISH.height * (SPACE.height / 1000));
 
             // Draw the player's car
             drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle);
@@ -203,10 +208,8 @@
             draw();
         }
     </script>
-</body>
-</html>
 
-    </section>
+</section>
 
     <section id="contact">
         <h2>Contact Me</h2>
