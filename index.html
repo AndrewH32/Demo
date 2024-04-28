@@ -129,7 +129,7 @@
                 ctx.fillText(velText, 10, canvas.height - 10);
 
                 // Draw player car with rotation and scaling
-                const playerCarScale = 0.5; // Adjust as needed
+                const playerCarScale = 0.25; // Adjust as needed
                 ctx.save();
                 ctx.translate(playerCar.x, playerCar.y);
                 ctx.rotate(playerCar.angle);
@@ -137,7 +137,7 @@
                 ctx.restore();
 
                 // Draw computer car with rotation and scaling
-                const computerCarScale = 0.5; // Adjust as needed
+                const computerCarScale = 0.25; // Adjust as needed
                 ctx.save();
                 ctx.translate(computerCar.x, computerCar.y);
                 ctx.rotate(computerCar.angle);
