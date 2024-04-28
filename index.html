@@ -159,21 +159,21 @@
         document.addEventListener("keydown", handleKeyDown);
 
         function handleKeyDown(event) {
-            // Example: Arrow keys control the player's car movement
+            // Example: varied keys control the player's car movement
             switch (event.key) {
-                case "ArrowUp":
+                case "W":
                     // Move forward
                     movePlayerCar(playerCar.vel);
                     break;
-                case "ArrowDown":
+                case "D":
                     // Move backward (optional)
                     movePlayerCar(-playerCar.vel / 2); // Reduce speed when moving backward
                     break;
-                case "ArrowLeft":
+                case "K":
                     // Rotate left
                     playerCar.angle -= 5; // Adjust rotation angle as needed
                     break;
-                case "ArrowRight":
+                case "L":
                     // Rotate right
                     playerCar.angle += 5; // Adjust rotation angle as needed
                     break;
