@@ -105,26 +105,44 @@
             // Define utility functions
             function draw() {
                 ctx.drawImage(SPACE, 0, 0);
-                ctx.drawImage(TRACK, 0, 0);
+
+                // Scale and draw the track image
+                const trackScale = 0.5; // Adjust as needed
+                ctx.drawImage(TRACK, 0, 0, TRACK.width * trackScale, TRACK.height * trackScale);
+
+                // Draw the finish line
                 ctx.drawImage(FINISH, 130, 250);
 
+                // Draw level text
                 const levelText = `Level ${gameInfo.level}`;
                 ctx.font = MAIN_FONT;
                 ctx.fillStyle = "white";
                 ctx.textAlign = 'center';
                 ctx.fillText(levelText, 10, canvas.height - 70);
 
+                // Draw time text
                 const timeText = `Time: ${gameInfo.getLevelTime()}s`;
                 ctx.fillText(timeText, 10, canvas.height - 40);
 
+                // Draw velocity text
                 const velText = `Vel: ${playerCar.vel.toFixed(1)}px/s`;
                 ctx.fillText(velText, 10, canvas.height - 10);
 
-                // Draw player car with rotation
-                playerCar.draw(ctx);
+                // Draw player car with rotation and scaling
+                const playerCarScale = 0.5; // Adjust as needed
+                ctx.save();
+                ctx.translate(playerCar.x, playerCar.y);
+                ctx.rotate(playerCar.angle);
+                ctx.drawImage(playerCar.image, -playerCar.image.width / 2, -playerCar.image.height / 2, playerCar.image.width * playerCarScale, playerCar.image.height * playerCarScale);
+                ctx.restore();
 
-                // Draw computer car with rotation
-                computerCar.draw(ctx);
+                // Draw computer car with rotation and scaling
+                const computerCarScale = 0.5; // Adjust as needed
+                ctx.save();
+                ctx.translate(computerCar.x, computerCar.y);
+                ctx.rotate(computerCar.angle);
+                ctx.drawImage(computerCar.image, -computerCar.image.width / 2, -computerCar.image.height / 2, computerCar.image.width * computerCarScale, computerCar.image.height * computerCarScale);
+                ctx.restore();
 
                 requestAnimationFrame(draw);
             }
