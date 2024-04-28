@@ -36,7 +36,7 @@
         <h2>Game</h2>
         <!-- Canvas for the game -->
        <canvas id="gameCanvas" width="800" height="600"></canvas>
-        <script>
+       <script>
             const canvas = document.getElementById("gameCanvas");
             const ctx = canvas.getContext("2d");
 
@@ -110,8 +110,9 @@
                 const trackScale = 0.25; // Adjust as needed
                 ctx.drawImage(TRACK, 0, 0, TRACK.width * trackScale, TRACK.height * trackScale);
 
-                // Draw the finish line
-                ctx.drawImage(FINISH, 130, 250);
+                // Scale and draw the finish line
+                const finishScale = trackScale; // Scale finish line to match track
+                ctx.drawImage(FINISH, 130 * finishScale, 250 * finishScale, FINISH.width * finishScale, FINISH.height * finishScale);
 
                 // Draw level text
                 const levelText = `Level ${gameInfo.level}`;
