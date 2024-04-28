@@ -61,7 +61,7 @@
             const ORANGE_ROCKET = new Image();
             ORANGE_ROCKET.src = "imgs/orange-rocket.png";
 
-            const MAIN_FONT = "22px sans-serif";
+            const MAIN_FONT = "44px sans-serif";
 
             // Game logic variables
             const gameInfo = {
@@ -73,8 +73,8 @@
             };
 
             const playerCar = {
-                x: 100,
-                y: 100,
+                x: 130, // Start behind the finish line
+                y: 500, // Adjust as needed
                 angle: 0,
                 vel: 1,
                 image: GREEN_ROCKET,
@@ -88,8 +88,8 @@
             };
 
             const computerCar = {
-                x: 200,
-                y: 200,
+                x: 230, // Start behind the finish line
+                y: 500, // Adjust as needed
                 angle: 0,
                 vel: 1,
                 image: ORANGE_ROCKET,
@@ -106,15 +106,13 @@
             function draw() {
                 ctx.drawImage(SPACE, 0, 0);
 
-                // Center and scale the track image within the space image
+                // Scale and draw the track image
                 const trackScale = 0.5; // Adjust as needed
-                const trackX = (SPACE.width - TRACK.width * trackScale) / 2;
-                const trackY = (SPACE.height - TRACK.height * trackScale) / 2;
-                ctx.drawImage(TRACK, trackX, trackY, TRACK.width * trackScale, TRACK.height * trackScale);
+                ctx.drawImage(TRACK, 0, 0, TRACK.width * trackScale, TRACK.height * trackScale);
 
                 // Scale and draw the finish line
                 const finishScale = trackScale; // Scale finish line to match track
-                ctx.drawImage(FINISH, (trackX + 130) * finishScale, (trackY + 250) * finishScale, FINISH.width * finishScale, FINISH.height * finishScale);
+                ctx.drawImage(FINISH, 130 * finishScale, 250 * finishScale, FINISH.width * finishScale, FINISH.height * finishScale);
 
                 // Draw level text
                 const levelText = `Level ${gameInfo.level}`;
