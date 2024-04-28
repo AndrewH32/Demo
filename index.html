@@ -161,19 +161,19 @@
         function handleKeyDown(event) {
             // Example: varied keys control the player's car movement
             switch (event.key) {
-                case "W":
+                case "w":
                     // Move forward
                     movePlayerCar(playerCar.vel);
                     break;
-                case "D":
+                case "d":
                     // Move backward (optional)
                     movePlayerCar(-playerCar.vel / 2); // Reduce speed when moving backward
                     break;
-                case "K":
+                case "k":
                     // Rotate left
                     playerCar.angle -= 5; // Adjust rotation angle as needed
                     break;
-                case "L":
+                case "l":
                     // Rotate right
                     playerCar.angle += 5; // Adjust rotation angle as needed
                     break;
