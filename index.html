@@ -120,18 +120,19 @@
             ctx.drawImage(FINISH, 130 * (SPACE.width / 1200), 250 * (SPACE.height / 1000),  // Adjusted positions and sizes
                 FINISH.width * (SPACE.width / 1200), FINISH.height * (SPACE.height / 1000));
 
-            // Draw the player's car
-            drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle);
+            // Draw the scaled player's car
+            drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle, 0.15); // Adjusted scale
 
-            // Draw the computer-controlled car
-            drawRotatedImage(computerCar.image, computerCar.x, computerCar.y, computerCar.angle);
+            // Draw the scaled computer-controlled car
+            drawRotatedImage(computerCar.image, computerCar.x, computerCar.y, computerCar.angle, 0.15); // Adjusted scale
         }
 
-        // Function to draw a rotated image
-        function drawRotatedImage(image, x, y, angle) {
+        // Function to draw a rotated and scaled image
+        function drawRotatedImage(image, x, y, angle, scale) {
             ctx.save(); // Save the current canvas state
             ctx.translate(x, y); // Translate to the image center
             ctx.rotate(angle * Math.PI / 180); // Rotate
+            ctx.scale(scale, scale); // Scale
             ctx.drawImage(image, -image.width / 2, -image.height / 2); // Draw the image centered
             ctx.restore(); // Restore the saved canvas state
         }
@@ -208,6 +209,9 @@
             draw();
         }
     </script>
+</body>
+</html>
+
 
 </section>
 
