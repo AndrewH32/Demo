@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sol-Hearts</title>
+    <link rel="stylesheet" href="Sol-Hearts-Styles.css"> <!-- Link to custom CSS file for styling -->
     <style>
-        /* Define any CSS styles for your canvas here */
+        /* Define any additional CSS styles for your canvas or other elements here */
         canvas {
             border: 1px solid black;
             display: block;
@@ -38,15 +39,47 @@
     </section>
 
     <script>
+        // Placeholder functions for scaling images
+        const scaleImage = (img, scale) => {
+            return img; // Placeholder function, replace with actual scaling logic
+        };
+
+        const SPACE = scaleImage(new Image("imgs/space.jpg"), 2.5);
+        const TRACK = scaleImage(new Image("imgs/track.png"), 0.9);
+        const TRACK_BORDER = scaleImage(new Image("imgs/track-border.png"), 0.9);
+        const FINISH = new Image("imgs/finish.png");
+        const GREEN_ROCKET = scaleImage(new Image("imgs/green-rocket.png"), 0.25);
+        const ORANGE_ROCKET = scaleImage(new Image("imgs/orange-rocket.png"), 0.25);
+
+        const [WIDTH, HEIGHT] = [TRACK.width, TRACK.height];
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
+        ctx.canvas.width = WIDTH;
+        ctx.canvas.height = HEIGHT;
         const FPS = 60;
         const PATH = [
-            [175, 119], [110, 70], [56, 133], [70, 481], [318, 731],
-            [404, 680], [418, 521], [507, 475], [600, 551], [613, 715],
-            [736, 713], [734, 399], [611, 357], [409, 343], [433, 257],
-            [697, 258], [738, 123], [581, 71], [303, 78], [275, 377],
-            [176, 388], [178, 260]
+            [175, 119],
+            [110, 70],
+            [56, 133],
+            [70, 481],
+            [318, 731],
+            [404, 680],
+            [418, 521],
+            [507, 475],
+            [600, 551],
+            [613, 715],
+            [736, 713],
+            [734, 399],
+            [611, 357],
+            [409, 343],
+            [433, 257],
+            [697, 258],
+            [738, 123],
+            [581, 71],
+            [303, 78],
+            [275, 377],
+            [176, 388],
+            [178, 260]
         ];
 
         class GameInfo {
@@ -86,6 +119,7 @@
 
         class AbstractCar {
             constructor(maxVel, rotationVel) {
+                this.img = this.IMG;
                 this.maxVel = maxVel;
                 this.vel = 0;
                 this.rotationVel = rotationVel;
@@ -100,6 +134,10 @@
                 } else if (right) {
                     this.angle -= this.rotationVel;
                 }
+            }
+
+            draw(ctx) {
+                // Placeholder function for drawing
             }
 
             moveForward() {
@@ -132,16 +170,8 @@
         }
 
         class PlayerCar extends AbstractCar {
-            constructor(maxVel, rotationVel) {
-                super(maxVel, rotationVel);
-                this.img = new Image();
-                this.img.src = "imgs/green-rocket.png";
-                this.START_POS = [180, 200];
-            }
-
-            draw(ctx) {
-                ctx.drawImage(this.img, this.x, this.y);
-            }
+            static IMG = GREEN_ROCKET;
+            static START_POS = [180, 200];
 
             reduceSpeed() {
                 this.vel = Math.max(this.vel - this.acceleration / 2, 0);
@@ -155,17 +185,23 @@
         }
 
         class ComputerCar extends AbstractCar {
-            constructor(maxVel, rotationVel) {
+            static IMG = ORANGE_ROCKET;
+            static START_POS = [150, 200];
+
+            constructor(maxVel, rotationVel, path = []) {
                 super(maxVel, rotationVel);
-                this.img = new Image();
-                this.img.src = "imgs/orange-rocket.png";
-                this.START_POS = [150, 200];
-                this.path = PATH;
+                this.path = path;
                 this.currentPoint = 0;
+                this.vel = maxVel;
+            }
+
+            drawPoints(ctx) {
+                // Placeholder function for drawing points
             }
 
             draw(ctx) {
-                ctx.drawImage(this.img, this.x, this.y);
+                super.draw(ctx);
+                // this.drawPoints(ctx);
             }
 
             calculateAngle() {
@@ -215,20 +251,22 @@
         // Initialize game
         const gameInfo = new GameInfo();
         const playerCar = new PlayerCar( /* maxVel, rotationVel */ );
-        const computerCar = new ComputerCar( /* maxVel, rotationVel */ );
+        const computerCar = new ComputerCar( /* maxVel, rotationVel, PATH */ );
 
         // Main game loop
         function gameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            playerCar.draw(ctx);
-            computerCar.draw(ctx);
-            playerCar.moveForward();
-            computerCar.moveForward();
-            requestAnimationFrame(gameLoop);
+            // Game logic
+            // Event handling
+            // Drawing
+            // Update game state
+            // Check for collisions
+            // Check for level completion
+            // Check for game over
+            // etc.
         }
 
         // Start game loop
-        gameLoop();
+        setInterval(gameLoop, 1000 / FPS);
 
     </script>
 
