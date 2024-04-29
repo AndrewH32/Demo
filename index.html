@@ -56,199 +56,230 @@
         <canvas id="gameCanvas" width="800" height="600"></canvas>
     </section>
 <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+          const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
 
-        const spaceImg = new Image();
-        spaceImg.src = 'imgs/space.jpg';
+        // Define image URLs
+        const SPACE = new Image();
+        SPACE.src = "imgs/space.jpg";
+        SPACE.onload = () => {
+            canvas.width = SPACE.width;
+            canvas.height = SPACE.height;
+            draw();
+        };
 
-        const trackImg = new Image();
-        trackImg.src = 'imgs/track.png';
+        const TRACK = new Image();
+        TRACK.src = "imgs/track.png";
+        TRACK.onload = () => {
+            draw();
+        };
 
-        const trackBorderImg = new Image();
-        trackBorderImg.src = 'imgs/track-border.png';
+        const FINISH = new Image();
+        FINISH.src = "imgs/finish.png";
+        FINISH.onload = () => {
+            draw();
+        };
 
-        const finishImg = new Image();
-        finishImg.src = 'imgs/finish.png';
+        const GREEN_ROCKET = new Image();
+        GREEN_ROCKET.src = "imgs/green-rocket.png";
+        GREEN_ROCKET.onload = () => {
+            draw();
+        };
 
-        const greenRocketImg = new Image();
-        greenRocketImg.src = 'imgs/green-rocket.png';
+        const ORANGE_ROCKET = new Image();
+        ORANGE_ROCKET.src = "imgs/orange-rocket.png";
+        ORANGE_ROCKET.onload = () => {
+            draw();
+        };
 
-        const orangeRocketImg = new Image();
-        orangeRocketImg.src = 'imgs/orange-rocket.png';
+        const MAIN_FONT = "44px sans-serif"; // Fixed the typo
 
-        const WIDTH = trackImg.width;
-        const HEIGHT = trackImg.height;
+        // Game logic variables
+        const gameInfo = {
+            level: 1,
+            getLevelTime() {
+                // Your logic to get the level time
+                return 60; // Example time
+            }
+        };
 
-        let level = 1;
-        const LEVELS = 10;
+        const FPS = 60; // Frames per second
+        const frameDelay = 1000 / FPS; // Delay between frames in milliseconds
+        let lastFrameTime = 0;
 
+        const playerCar = {
+            x: 100,
+            y: 100,
+            angle: 0,
+            vel: 5, // Initial velocity
+            image: GREEN_ROCKET
+        };
+
+        const computerCar = {
+            x: 175,
+            y: 119,
+            angle: 0,
+            vel: 3, // Initial velocity
+            image: ORANGE_ROCKET
+        };
+
+        // Define the path for the computer-controlled car to follow
         const PATH = [
-            [175, 119], [110, 70], [56, 133], [70, 481], [318, 731],
-            [404, 680], [418, 521], [507, 475], [600, 551], [613, 715],
-            [736, 713], [734, 399], [611, 357], [409, 343], [433, 257],
-            [697, 258], [738, 123], [581, 71], [303, 78], [275, 377],
-            [176, 388], [178, 260]
+            { x: 175, y: 119 },
+            { x: 110, y: 70 },
+            { x: 56, y: 133 },
+            { x: 70, y: 481 },
+            { x: 318, y: 731 },
+            { x: 404, y: 680 },
+            { x: 418, y: 521 },
+            { x: 507, y: 475 },
+            { x: 600, y: 551 },
+            { x: 613, y: 715 },
+            { x: 736, y: 713 },
+            { x: 734, y: 399 },
+            { x: 611, y: 357 },
+            { x: 409, y: 343 },
+            { x: 433, y: 257 },
+            { x: 697, y: 258 },
+            { x: 738, y: 123 },
+            { x: 581, y: 71 },
+            { x: 303, y: 78 },
+            { x: 275, y: 377 },
+            { x: 176, y: 388 },
+            { x: 178, y: 260 }
         ];
 
-        class GameInfo {
-            constructor(level = 1) {
-                this.level = level;
-                this.started = false;
-                this.levelStartTime = 0;
-            }
+        let pathIndex = 0;
 
-            nextLevel() {
-                this.level++;
-                this.started = false;
-            }
+        function draw() {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            reset() {
-                this.level = 1;
-                this.started = false;
-                this.levelStartTime = 0;
-            }
+            // Draw the background and other static elements
+            ctx.drawImage(SPACE, 0, 0, SPACE.width, SPACE.height);
 
-            gameFinished() {
-                return this.level > LEVELS;
-            }
+            // Scale and draw the track
+            ctx.drawImage(TRACK, 0, 0, SPACE.width, SPACE.height);
 
-            startLevel() {
-                this.started = true;
-                this.levelStartTime = Date.now();
-            }
+            // Scale and draw the finish line
+            ctx.drawImage(FINISH, 130 * (SPACE.width / 800), 250 * (SPACE.height / 600),  // Adjusted positions and sizes
+                FINISH.width * (SPACE.width / 800), FINISH.height * (SPACE.height / 600));
 
-            getLevelTime() {
-                if (!this.started) return 0;
-                return Math.round((Date.now() - this.levelStartTime) / 1000);
+            // Draw the scaled player's car
+            drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle, 0.15); // Adjusted scale
+
+            // Draw the scaled computer-controlled car
+            drawRotatedImage(computerCar.image, computerCar.x, computerCar.y, computerCar.angle, 0.15); // Adjusted scale
+
+            // Check for collisions between player's car and track boundaries
+            checkCollision(playerCar);
+        }
+
+        // Function to draw a rotated and scaled image
+        function drawRotatedImage(image, x, y, angle, scale) {
+            ctx.save(); // Save the current canvas state
+            ctx.translate(x, y); // Translate to the image center
+            ctx.rotate(angle * Math.PI / 180); // Rotate
+            ctx.scale(scale, scale); // Scale
+            ctx.drawImage(image, -image.width / 2, -image.height / 2); // Draw the image centered
+            ctx.restore(); // Restore the saved canvas state
+        }
+
+        // Function to check for collision between a car and track boundaries
+        function checkCollision(car) {
+            if (car.x < 0 || car.x > canvas.width || car.y < 0 || car.y > canvas.height) {
+                // Collision detected with track boundary
+                console.log("Collision detected with track boundary!");
+                // Implement actions to handle collision (e.g., reset car position)
             }
         }
 
-        class Car {
-            constructor(maxVel, rotationVel) {
-                this.img = null;
-                this.maxVel = maxVel;
-                this.vel = 0;
-                this.rotationVel = rotationVel;
-                this.angle = 0;
-                this.x = 0;
-                this.y = 0;
-                this.acceleration = 0.1;
-                this.startPos = [0, 0];
+        // Main game loop
+        function gameLoop(currentTime) {
+            // Calculate time difference since the last frame
+            const deltaTime = currentTime - lastFrameTime;
+
+            // Check if it's time to update the frame
+            if (deltaTime > frameDelay) {
+                // Update the last frame time
+                lastFrameTime = currentTime - (deltaTime % frameDelay);
+
+                // Update game logic
+                moveComputerCar(); // Move the computer-controlled car
+
+                // Redraw the canvas with updated positions
+                draw();
             }
 
-            rotate(left = false, right = false) {
-                if (left) {
-                    this.angle += this.rotationVel;
-                } else if (right) {
-                    this.angle -= this.rotationVel;
+            // Request the next frame
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game loop
+        requestAnimationFrame(gameLoop);
+
+        // Add event listener for keyboard input to control player's car
+        document.addEventListener("keydown", handleKeyDown);
+
+        function handleKeyDown(event) {
+            // Example: varied keys control the player's car movement
+            switch (event.key) {
+                case "w":
+                    // Move forward
+                    movePlayerCar(playerCar.vel);
+                    break;
+                case "d":
+                    // Move backward (optional)
+                    movePlayerCar(-playerCar.vel / 2); // Reduce speed when moving backward
+                    break;
+                case "k":
+                    // Rotate left
+                    playerCar.angle -= 5; // Adjust rotation angle as needed
+                    break;
+                case "l":
+                    // Rotate right
+                    playerCar.angle += 5; // Adjust rotation angle as needed
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function movePlayerCar(velocity) {
+            // Calculate new position based on velocity and angle
+            playerCar.x += velocity * Math.sin(playerCar.angle * Math.PI / 180);
+            playerCar.y -= velocity * Math.cos(playerCar.angle * Math.PI / 180);
+
+            // Optional: Implement boundary checking to keep the car within the track
+            // Example: Check if the new position is within the canvas boundaries
+
+            // Redraw the canvas with the updated positions
+            draw();
+        }
+
+        function moveComputerCar() {
+            if (pathIndex < PATH.length) {
+                const targetX = PATH[pathIndex].x;
+                const targetY = PATH[pathIndex].y;
+
+                // Calculate angle to target
+                const deltaX = targetX - computerCar.x;
+                const deltaY = targetY - computerCar.y;
+                const angleToTarget = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+
+                // Move the car towards the target
+                computerCar.angle = angleToTarget;
+                computerCar.x += Math.cos(angleToTarget * Math.PI / 180) * computerCar.vel;
+                computerCar.y += Math.sin(angleToTarget * Math.PI / 180) * computerCar.vel;
+
+                // Check if the car has reached the target
+                if (Math.abs(computerCar.x - targetX) < 5 && Math.abs(computerCar.y - targetY) < 5) {
+                    pathIndex++;
                 }
             }
 
-            draw(win) {
-                // Implement drawing logic here
-            }
-
-            moveForward() {
-                this.vel = Math.min(this.vel + this.acceleration, this.maxVel);
-                this.move();
-            }
-
-            moveBackward() {
-                this.vel = Math.max(this.vel - this.acceleration, -this.maxVel / 2);
-                this.move();
-            }
-
-            move() {
-                const radians = Math.radians(this.angle);
-                const vertical = Math.cos(radians) * this.vel;
-                const horizontal = Math.sin(radians) * this.vel;
-                this.y -= vertical;
-                this.x -= horizontal;
-            }
-
-            collide(mask, x = 0, y = 0) {
-                // Implement collision detection logic here
-            }
-
-            reset() {
-                [this.x, this.y] = this.startPos;
-                this.angle = 0;
-                this.vel = 0;
-            }
-        }
-
-        class PlayerCar extends Car {
-            constructor() {
-                super(10, 0.25);
-                this.img = greenRocketImg;
-                this.startPos = [180, 200];
-            }
-
-            reduceSpeed() {
-                this.vel = Math.max(this.vel - this.acceleration / 2, 0);
-                this.move();
-            }
-
-            bounce() {
-                this.vel = -this.vel;
-                this.move();
-            }
-        }
-
-        class ComputerCar extends Car {
-            constructor(maxVel, rotationVel, path = []) {
-                super(maxVel, rotationVel);
-                this.img = orangeRocketImg;
-                this.startPos = [150, 200];
-                this.path = path;
-                this.currentPoint = 0;
-            }
-
-            drawPoints(win) {
-                // Implement drawing points logic here
-            }
-
-            draw(win) {
-                super.draw(win);
-                // this.drawPoints(win);
-            }
-
-            calculateAngle() {
-                // Implement angle calculation logic here
-            }
-
-            updatePathPoint() {
-                // Implement path point update logic here
-            }
-        }
-
-        Math.radians = function(degrees) {
-            return degrees * Math.PI / 180;
-        };
-
-        window.onload = function() {
-            // Draw images onto the canvas
-            ctx.drawImage(spaceImg, 0, 0);
-            ctx.drawImage(trackImg, 0, 0);
-
-            // Initialize game objects
-            const playerCar = new PlayerCar();
-            const computerCar = new ComputerCar();
-
-            // Start the game loop
-            requestAnimationFrame(gameLoop);
-        };
-
-        function gameLoop() {
-            // Update game state
-            // Implement game logic here
-
-            // Draw game objects
-            // Implement drawing logic here
-
-            // Request next frame
-            requestAnimationFrame(gameLoop);
+            // Redraw the canvas with the updated positions
+            draw();
         }
     </script>
 
