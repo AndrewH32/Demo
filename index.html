@@ -99,12 +99,40 @@
         };
 
         const computerCar = {
-            x: 200,
-            y: 200,
+            x: 175,
+            y: 119,
             angle: 0,
             vel: 3, // Initial velocity
             image: ORANGE_ROCKET
         };
+
+        // Define the path for the computer-controlled car to follow
+        const PATH = [
+            { x: 175, y: 119 },
+            { x: 110, y: 70 },
+            { x: 56, y: 133 },
+            { x: 70, y: 481 },
+            { x: 318, y: 731 },
+            { x: 404, y: 680 },
+            { x: 418, y: 521 },
+            { x: 507, y: 475 },
+            { x: 600, y: 551 },
+            { x: 613, y: 715 },
+            { x: 736, y: 713 },
+            { x: 734, y: 399 },
+            { x: 611, y: 357 },
+            { x: 409, y: 343 },
+            { x: 433, y: 257 },
+            { x: 697, y: 258 },
+            { x: 738, y: 123 },
+            { x: 581, y: 71 },
+            { x: 303, y: 78 },
+            { x: 275, y: 377 },
+            { x: 176, y: 388 },
+            { x: 178, y: 260 }
+        ];
+
+        let pathIndex = 0;
 
         function draw() {
             // Clear the canvas
@@ -117,8 +145,8 @@
             ctx.drawImage(TRACK, 0, 0, SPACE.width, SPACE.height);
 
             // Scale and draw the finish line
-            ctx.drawImage(FINISH, 130 * (SPACE.width / 800), 250 * (SPACE.height / 600),  // Adjusted positions and sizes
-                FINISH.width * (SPACE.width / 800), FINISH.height * (SPACE.height / 600));
+            ctx.drawImage(FINISH, 130 * (SPACE.width / 1200), 250 * (SPACE.height / 1000),  // Adjusted positions and sizes
+                FINISH.width * (SPACE.width / 1200), FINISH.height * (SPACE.height / 1000));
 
             // Draw the scaled player's car
             drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle, 0.15); // Adjusted scale
@@ -213,9 +241,25 @@
         }
 
         function moveComputerCar() {
-            // Implement movement logic for the computer-controlled car here
-            // Example: Move the computer car along a predefined path or AI-controlled movement
-            // Update the computerCar.x and computerCar.y based on the logic
+            if (pathIndex < PATH.length) {
+                const targetX = PATH[pathIndex].x;
+                const targetY = PATH[pathIndex].y;
+
+                // Calculate angle to target
+                const deltaX = targetX - computerCar.x;
+                const deltaY = targetY - computerCar.y;
+                const angleToTarget = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+
+                // Move the car towards the target
+                computerCar.angle = angleToTarget;
+                computerCar.x += Math.cos(angleToTarget * Math.PI / 180) * computerCar.vel;
+                computerCar.y += Math.sin(angleToTarget * Math.PI / 180) * computerCar.vel;
+
+                // Check if the car has reached the target
+                if (Math.abs(computerCar.x - targetX) < 5 && Math.abs(computerCar.y - targetY) < 5) {
+                    pathIndex++;
+                }
+            }
 
             // Redraw the canvas with the updated positions
             draw();
@@ -223,3 +267,4 @@
     </script>
 </body>
 </html>
+
