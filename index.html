@@ -125,6 +125,9 @@
 
             // Draw the scaled computer-controlled car
             drawRotatedImage(computerCar.image, computerCar.x, computerCar.y, computerCar.angle, 0.15); // Adjusted scale
+
+            // Check for collisions between player's car and track boundaries
+            checkCollision(playerCar);
         }
 
         // Function to draw a rotated and scaled image
@@ -135,6 +138,15 @@
             ctx.scale(scale, scale); // Scale
             ctx.drawImage(image, -image.width / 2, -image.height / 2); // Draw the image centered
             ctx.restore(); // Restore the saved canvas state
+        }
+
+        // Function to check for collision between a car and track boundaries
+        function checkCollision(car) {
+            if (car.x < 0 || car.x > canvas.width || car.y < 0 || car.y > canvas.height) {
+                // Collision detected with track boundary
+                console.log("Collision detected with track boundary!");
+                // Implement actions to handle collision (e.g., reset car position)
+            }
         }
 
         // Main game loop
@@ -211,18 +223,3 @@
     </script>
 </body>
 </html>
-
-
-</section>
-
-    <section id="contact">
-        <h2>Contact Me</h2>
-        <p>You can reach me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a>, <a href="tel:720-290-8971">720-290-8971</a></p>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 Andrew Hensley</p>
-    </footer>
-</body>
-</html>
-
