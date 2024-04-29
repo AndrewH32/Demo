@@ -117,8 +117,8 @@
             ctx.drawImage(TRACK, 0, 0, SPACE.width, SPACE.height);
 
             // Scale and draw the finish line
-            ctx.drawImage(FINISH, 130 * (SPACE.width / 1200), 250 * (SPACE.height / 1000),  // Adjusted positions and sizes
-                FINISH.width * (SPACE.width / 1200), FINISH.height * (SPACE.height / 1000));
+            ctx.drawImage(FINISH, 130 * (SPACE.width / 800), 250 * (SPACE.height / 600),  // Adjusted positions and sizes
+                FINISH.width * (SPACE.width / 800), FINISH.height * (SPACE.height / 600));
 
             // Draw the scaled player's car
             drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle, 0.15); // Adjusted scale
