@@ -1,4 +1,4 @@
-   const canvas = document.getElementById("gameCanvas");
+  const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
         // Define image URLs
@@ -28,12 +28,6 @@
             draw();
         };
 
-        const ORANGE_ROCKET = new Image();
-        ORANGE_ROCKET.src = "imgs/orange-rocket.png";
-        ORANGE_ROCKET.onload = () => {
-            draw();
-        };
-
         const MAIN_FONT = "44px sans-serif"; // Fixed the typo
 
         // Game logic variables
@@ -50,48 +44,12 @@
         let lastFrameTime = 0;
 
         const playerCar = {
-            x: 100,
-            y: 100,
+            x: 130,
+            y: 140,
             angle: 0,
             vel: 5, // Initial velocity
             image: GREEN_ROCKET
         };
-
-        const computerCar = {
-            x: 175,
-            y: 119,
-            angle: 0,
-            vel: 3, // Initial velocity
-            image: ORANGE_ROCKET
-        };
-
-        // Define the path for the computer-controlled car to follow
-        const PATH = [
-            { x: 175, y: 119 },
-            { x: 110, y: 70 },
-            { x: 56, y: 133 },
-            { x: 70, y: 481 },
-            { x: 318, y: 731 },
-            { x: 404, y: 680 },
-            { x: 418, y: 521 },
-            { x: 507, y: 475 },
-            { x: 600, y: 551 },
-            { x: 613, y: 715 },
-            { x: 736, y: 713 },
-            { x: 734, y: 399 },
-            { x: 611, y: 357 },
-            { x: 409, y: 343 },
-            { x: 433, y: 257 },
-            { x: 697, y: 258 },
-            { x: 738, y: 123 },
-            { x: 581, y: 71 },
-            { x: 303, y: 78 },
-            { x: 275, y: 377 },
-            { x: 176, y: 388 },
-            { x: 178, y: 260 }
-        ];
-
-        let pathIndex = 0;
 
         function draw() {
             // Clear the canvas
@@ -108,10 +66,7 @@
                 FINISH.width * (SPACE.width / 800), FINISH.height * (SPACE.height / 600));
 
             // Draw the scaled player's car
-            drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle, 0.15); // Adjusted scale
-
-            // Draw the scaled computer-controlled car
-            drawRotatedImage(computerCar.image, computerCar.x, computerCar.y, computerCar.angle, 0.15); // Adjusted scale
+            drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle, 0.20); // Adjusted scale
 
             // Check for collisions between player's car and track boundaries
             checkCollision(playerCar);
@@ -145,9 +100,6 @@
             if (deltaTime > frameDelay) {
                 // Update the last frame time
                 lastFrameTime = currentTime - (deltaTime % frameDelay);
-
-                // Update game logic
-                moveComputerCar(); // Move the computer-controlled car
 
                 // Redraw the canvas with updated positions
                 draw();
@@ -194,31 +146,6 @@
 
             // Optional: Implement boundary checking to keep the car within the track
             // Example: Check if the new position is within the canvas boundaries
-
-            // Redraw the canvas with the updated positions
-            draw();
-        }
-
-        function moveComputerCar() {
-            if (pathIndex < PATH.length) {
-                const targetX = PATH[pathIndex].x;
-                const targetY = PATH[pathIndex].y;
-
-                // Calculate angle to target
-                const deltaX = targetX - computerCar.x;
-                const deltaY = targetY - computerCar.y;
-                const angleToTarget = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-
-                // Move the car towards the target
-                computerCar.angle = angleToTarget;
-                computerCar.x += Math.cos(angleToTarget * Math.PI / 180) * computerCar.vel;
-                computerCar.y += Math.sin(angleToTarget * Math.PI / 180) * computerCar.vel;
-
-                // Check if the car has reached the target
-                if (Math.abs(computerCar.x - targetX) < 5 && Math.abs(computerCar.y - targetY) < 5) {
-                    pathIndex++;
-                }
-            }
 
             // Redraw the canvas with the updated positions
             draw();
