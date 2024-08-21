@@ -1,218 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sol-Hearts</title>
-    <link rel="stylesheet" href="Sol-Hearts-Styles.css"> <!-- Link to custom CSS file for styling -->
-    <style>
-        body {
-            text-align: center; /* Center align everything */
-            margin: 0; /* Remove default margin */
-            font-family: Arial, sans-serif; /* Apply a default font */
-        }
+/* Reset default styles and provide a modern layout */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1c;
+    color: #fff; /* Text color */
+}
 
-        header {
-            background-color: #f4f4f4; /* Light background for header */
-            padding: 1em 0; /* Add padding for better spacing */
-        }
+/* Header with a dark background and gradient */
+header {
+    background: linear-gradient(to bottom, #0074e4, #0048a8);
+    color: #fff;
+    text-align: center;
+    padding: 40px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
 
-        nav ul {
-            list-style-type: none; /* Remove default list styling */
-            padding: 0; /* Remove padding */
-        }
+/* Navigation menu styles */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
 
-        nav ul li {
-            display: inline; /* Display list items inline */
-            margin: 0 15px; /* Space out list items */
-        }
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
 
-        nav ul li a {
-            text-decoration: none; /* Remove underline from links */
-            color: #333; /* Dark color for text */
-        }
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
 
-        .pdf-container {
-            width: 80%; /* Responsive width */
-            max-width: 800px; /* Maximum width */
-            height: 600px; /* Fixed height */
-            margin: 0 auto; /* Center container */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+nav ul li a:hover {
+    color: #00bfff; /* Hover color */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
 
-        .pdf-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none; /* Remove border from iframe */
-        }
+/* About section with a subtle background pattern */
+section#about {
+    background-color: #2e2e2e;
+    padding: 80px 20px;
+    text-align: center;
+}
 
-        canvas {
-            border: 1px solid black;
-            display: block;
-            margin: 20px auto; /* Add margin for spacing */
-        }
+section#about p {
+    font-size: 18px;
+    line-height: 1.8;
+    margin: 20px auto;
+    max-width: 800px;
+    color: #d0d0d0; /* Lighter text color */
+}
 
-        footer {
-            background-color: #f4f4f4; /* Light background for footer */
-            padding: 1em 0; /* Add padding */
-        }
+/* Portfolio section with card-style game projects */
+section#portfolio {
+    background-color: #333;
+    padding: 80px 20px;
+    text-align: center;
+}
 
-        footer p {
-            margin: 0; /* Remove default margin */
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Sol-Hearts</h1>
-        <nav>
-            <ul>
-                <li><a href="#design">Design Document</a></li>
-                <li><a href="#game">Game</a></li>
-                <li><a href="#the-developer">The Developer</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+.game {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    <section id="design">
-        <h2>Design Document</h2>
-        <div class="pdf-container">
-            <iframe src="Sol Hearts.pdf" title="Sol-Hearts"></iframe>
-        </div>
-    </section>
+.game:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
 
-    <section id="game">
-        <h2>Game</h2>
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
-    </section>
+.game img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: opacity 0.3s ease;
+}
 
-    <section id="the-developer">
-        <h2>The Developer</h2>
-        <img src="imgs/andrew-hensley (1).jpg" alt="Andrew Hensley">
-        <p>
-            Andrew Hensley is a highly motivated individual with a diverse educational background and extensive work experience spanning over a decade. In 2016, Andrew completed a Bachelor of Arts in Hospitality, Tourism & Events, showcasing his versatility and adaptability across different fields. Additionally, he pursued an Associate of Applied Science in Game Development, graduating from Red Rocks Community College with a focus on database design, programming languages, and game design.
-            Andrew's educational journey is complemented by a robust collection of certificates, including those in Game Development, Software Development, and various aspects of Web Development. His commitment to continuous learning is evident through the completion of courses ranging from Sustainable Tourism and Global Meetings & Events to Network Security Fundamentals and Advanced Python Programming.
-            With over a decade of work experience, Andrew has demonstrated his versatility in various roles. He is passionate about game development and has contributed to several projects, including Sol Hearts, Actium, and Red Beard, showcasing his creativity and technical skills in the field. Andrew's diverse background, coupled with his dedication to learning and professional growth, positions him as a valuable asset in any team or organization.
-        </p>
-    </section>
+.game img:hover {
+    opacity: 0.9;
+}
 
-    <footer id="contact">
-        <h2>Contact</h2>
-        <p>Contact me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a></p>
-    </footer>
+/* Contact section with a contact form */
+section#contact {
+    background-color: #1c1c1c;
+    padding: 80px 20px;
+    text-align: center;
+}
 
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
 
-        // Define image URLs
-        const SPACE = new Image();
-        SPACE.src = "imgs/space.jpg";
-        SPACE.onload = () => {
-            canvas.width = SPACE.width;
-            canvas.height = SPACE.height;
-            draw();
-        };
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 16px;
+    box-sizing: border-box;
+}
 
-        const TRACK = new Image();
-        TRACK.src = "imgs/track.png";
-        TRACK.onload = draw;
+.contact-form input[type="submit"] {
+    background: linear-gradient(to bottom, #0074e4, #0048a8);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
 
-        const FINISH = new Image();
-        FINISH.src = "imgs/finish.png";
-        FINISH.onload = draw;
+.contact-form input[type="submit"]:hover {
+    background: linear-gradient(to bottom, #0048a8, #0074e4);
+    transform: scale(1.05);
+}
 
-        const GREEN_ROCKET = new Image();
-        GREEN_ROCKET.src = "imgs/green-rocket.png";
-        GREEN_ROCKET.onload = draw;
-
-        const MAIN_FONT = "44px sans-serif";
-
-        // Game logic variables
-        const gameInfo = {
-            level: 1,
-            getLevelTime() {
-                return 60; // Example time
-            }
-        };
-
-        const FPS = 60;
-        const frameDelay = 1000 / FPS;
-        let lastFrameTime = 0;
-
-        const playerCar = {
-            x: 130,
-            y: 140,
-            angle: 0,
-            vel: 5,
-            image: GREEN_ROCKET
-        };
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(SPACE, 0, 0, SPACE.width, SPACE.height);
-            ctx.drawImage(TRACK, 0, 0, SPACE.width, SPACE.height);
-            ctx.drawImage(FINISH, 130 * (SPACE.width / 800), 250 * (SPACE.height / 600),
-                FINISH.width * (SPACE.width / 800), FINISH.height * (SPACE.height / 600));
-            drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle, 0.20);
-            checkCollision(playerCar);
-        }
-
-        function drawRotatedImage(image, x, y, angle, scale) {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(angle * Math.PI / 180);
-            ctx.scale(scale, scale);
-            ctx.drawImage(image, -image.width / 2, -image.height / 2);
-            ctx.restore();
-        }
-
-        function checkCollision(car) {
-            if (car.x < 0 || car.x > canvas.width || car.y < 0 || car.y > canvas.height) {
-                console.log("Collision detected with track boundary!");
-            }
-        }
-
-        function gameLoop(currentTime) {
-            const deltaTime = currentTime - lastFrameTime;
-            if (deltaTime > frameDelay) {
-                lastFrameTime = currentTime - (deltaTime % frameDelay);
-                draw();
-            }
-            requestAnimationFrame(gameLoop);
-        }
-
-        requestAnimationFrame(gameLoop);
-
-        document.addEventListener("keydown", handleKeyDown);
-
-        function handleKeyDown(event) {
-            switch (event.key) {
-                case "w":
-                    movePlayerCar(playerCar.vel);
-                    break;
-                case "d":
-                    movePlayerCar(-playerCar.vel / 2);
-                    break;
-                case "k":
-                    playerCar.angle -= 5;
-                    break;
-                case "l":
-                    playerCar.angle += 5;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        function movePlayerCar(velocity) {
-            playerCar.x += velocity * Math.sin(playerCar.angle * Math.PI / 180);
-            playerCar.y -= velocity * Math.cos(playerCar.angle * Math.PI / 180);
-            draw();
-        }
-    </script>
-</body>
-</html>
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+}
