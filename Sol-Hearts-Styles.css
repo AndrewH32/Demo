@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #1c1c1c;
-    color: white; /* Text color */
+    color: #fff; /* Text color */
 }
 
 /* Header with a dark background and gradient */
@@ -13,12 +13,14 @@ header {
     color: #fff;
     text-align: center;
     padding: 40px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 /* Navigation menu styles */
 nav ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 nav ul li {
@@ -30,58 +32,67 @@ nav ul li a {
     text-decoration: none;
     color: #fff;
     font-weight: bold;
-    transition: color 0.3s ease;
+    font-size: 16px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #0074e4; /* Hover color */
+    color: #00bfff; /* Hover color */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* About section with a subtle background pattern */
 section#about {
-    background-color: #1c1c1c;
-    padding: 80px 0;
+    background-color: #2e2e2e;
+    padding: 80px 20px;
     text-align: center;
 }
 
 section#about p {
     font-size: 18px;
-    line-height: 1.6;
+    line-height: 1.8;
     margin: 20px auto;
     max-width: 800px;
+    color: #d0d0d0; /* Lighter text color */
 }
 
 /* Portfolio section with card-style game projects */
 section#portfolio {
     background-color: #333;
-    padding: 80px 0;
+    padding: 80px 20px;
     text-align: center;
 }
 
 .game {
-    background-color:blue ;
+    background-color: #1e1e1e;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
     margin: 20px;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .game:hover {
     transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
 .game img {
     max-width: 100%;
     height: auto;
-    border-radius: 5px;
+    border-radius: 8px;
+    transition: opacity 0.3s ease;
+}
+
+.game img:hover {
+    opacity: 0.9;
 }
 
 /* Contact section with a contact form */
 section#contact {
     background-color: #1c1c1c;
-    padding: 80px 0;
+    padding: 80px 20px;
     text-align: center;
 }
 
@@ -91,17 +102,20 @@ section#contact {
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .contact-form input[type="email"],
 .contact-form textarea {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     margin: 10px 0;
     border: none;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 .contact-form input[type="submit"] {
@@ -109,13 +123,15 @@ section#contact {
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 15px 25px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .contact-form input[type="submit"]:hover {
     background: linear-gradient(to bottom, #0048a8, #0074e4);
+    transform: scale(1.05);
 }
 
 /* Footer styles */
@@ -123,5 +139,6 @@ footer {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 20px 0;
+    padding: 20px;
+    font-size: 14px;
 }
