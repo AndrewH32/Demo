@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,7 +70,7 @@
 
         section#the-developer p {
             font-size: 18px;
-            line-height: 1.8;
+            line-height: 2.0; /* Double spacing */
             margin: 20px auto;
             max-width: 800px;
             color: #d0d0d0; /* Lighter text color */
@@ -244,55 +245,44 @@ Andrew is eager to continue advancing his career in game development, particular
         const ctx = canvas.getContext("2d");
 
         // Define image URLs
-        const SPACE = new Image();
-        SPACE.src = "imgs/space.jpg";
-        SPACE.onload = () => {
-            canvas.width = SPACE.width;
-            canvas.height = SPACE.height;
-            draw();
-        };
+        const cardBackImage = "imgs/card_back.png";
+        const cardFrontImage = "imgs/card_front.png";
 
-        const TRACK = new Image();
-        TRACK.src = "imgs/track.png";
-        TRACK.onload = draw;
+        // Load the images
+        const backImage = new Image();
+        const frontImage = new Image();
+        backImage.src = cardBackImage;
+        frontImage.src = cardFrontImage;
 
-        const FINISH = new Image();
-        FINISH.src = "imgs/finish.png";
-        FINISH.onload = draw;
+        // Set card dimensions
+        const cardWidth = 100;
+        const cardHeight = 150;
 
-        const GREEN_ROCKET = new Image();
-        GREEN_ROCKET.src = "imgs/green-rocket.png";
-        GREEN_ROCKET.onload = draw;
+        // Set initial card position
+        let cardX = (canvas.width - cardWidth) / 2;
+        let cardY = (canvas.height - cardHeight) / 2;
 
-        const MAIN_FONT = "44px sans-serif";
+        // Card flipping state
+        let isCardFlipped = false;
 
-        // Game logic variables
-        const gameInfo = {
-            level: 1,
-            getLevelTime() {
-                return 60; // Example time
-            }
-        };
-
-        const FPS = 60;
-        const frameDelay = 1000 / FPS;
-        let lastFrameTime = 0;
-
-        const playerCar = {
-            x: 130,
-            y: 140,
-            angle: 0,
-            vel: 5,
-            image: GREEN_ROCKET
-        };
-
-        function draw() {
+        // Draw the card on the canvas
+        function drawCard() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(SPACE, 0, 0, SPACE.width, SPACE.height);
-            ctx.drawImage(TRACK, 0, 0, SPACE.width, SPACE.height);
-            ctx.drawImage(FINISH, 0, 0, SPACE.width, SPACE.height);
-            ctx.drawImage(playerCar.image, playerCar.x, playerCar.y);
+            if (isCardFlipped) {
+                ctx.drawImage(frontImage, cardX, cardY, cardWidth, cardHeight);
+            } else {
+                ctx.drawImage(backImage, cardX, cardY, cardWidth, cardHeight);
+            }
         }
+
+        // Flip the card on click
+        canvas.addEventListener("click", () => {
+            isCardFlipped = !isCardFlipped;
+            drawCard();
+        });
+
+        // Initial draw
+        drawCard();
     </script>
 </body>
 </html>
