@@ -1,213 +1,136 @@
-/* General styles */
+/* General Reset and Body Styles */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #fafafa; /* Light background */
+    background-color: #f4f4f4;
     color: #333;
-    line-height: 1.6;
-    scroll-behavior: smooth;
 }
 
-/* Header with gradient background */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
 header {
-    background: linear-gradient(135deg, #0074e4, #00c6ff); /* Blue gradient */
+    background-color: #0074e4;
     color: #fff;
-    padding: 30px 0;
+    padding: 20px 0;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
 }
 
 header h1 {
     margin: 0;
-    font-size: 40px;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-size: 2.5em;
 }
 
-/* Navigation styles with vibrant hover effect */
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline-block;
-    margin-right: 30px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-nav ul li a:hover {
-    color: #ffcc00; /* Bright yellow hover effect */
-    transform: scale(1.1);
-}
-
-/* About section with colorful background */
-section#about {
-    background-color: #ffcc00; /* Vibrant yellow background */
-    padding: 80px 20px;
-    text-align: center;
-    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.1);
-}
-
-section#about h2 {
-    font-size: 32px;
+/* Section Styles */
+section {
     margin-bottom: 20px;
-    color: #0074e4; /* Blue text */
-    text-transform: uppercase;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-section#about p {
-    font-size: 20px;
-    max-width: 900px;
-    margin: 0 auto;
-    color: #333;
-    line-height: 1.8;
-}
-
-/* Portfolio section with colorful cards */
-section#portfolio {
-    background-color: #e8e8e8;
-    padding: 80px 20px;
-    text-align: center;
-}
-
-.portfolio-item {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    padding: 30px;
-    margin: 20px;
-    display: inline-block;
-    vertical-align: top;
-    width: calc(45% - 40px);
-    box-sizing: border-box;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.portfolio-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.portfolio-item img {
-    max-width: 100%;
-    border-radius: 8px;
+h2 {
+    border-bottom: 2px solid #0074e4;
+    padding-bottom: 10px;
     margin-bottom: 20px;
-    transition: opacity 0.3s ease;
+    font-size: 1.5em;
 }
 
-.portfolio-item img:hover {
-    opacity: 0.9;
+/* Contact Information Styles */
+.contact-info {
+    margin-bottom: 20px;
 }
 
-.portfolio-item h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
+.contact-info a {
     color: #0074e4;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    text-decoration: none;
 }
 
-.portfolio-item p {
-    font-size: 18px;
-    color: #666;
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+/* Objective, Education, and Skills Section Styles */
+.objective, .education, .skills {
+    margin-bottom: 20px;
+}
+
+.objective p, .education p, .skills ul {
+    font-size: 1em;
     line-height: 1.6;
 }
 
-/* Contact section with a cool gradient */
-section#contact {
-    background: linear-gradient(135deg, #0074e4, #4a90e2); /* Blue gradient */
-    padding: 80px 20px;
-    text-align: center;
-    color: #fff;
+.skills ul {
+    list-style-type: none;
+    padding: 0;
 }
 
-section#contact h2 {
-    font-size: 32px;
+.skills ul li {
+    padding: 5px 0;
+}
+
+/* Professional Experience Styles */
+.professional-experience {
     margin-bottom: 20px;
-    text-transform: uppercase;
 }
 
-section#contact p {
-    font-size: 20px;
-    margin-bottom: 30px;
-    color: #e0e0e0;
+.professional-experience h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #0074e4;
 }
 
-.contact-form {
-    max-width: 600px;
-    margin: 0 auto;
+.professional-experience p {
+    margin: 5px 0;
 }
 
-.contact-form input[type="text"],
-.contact-form input[type="email"],
-.contact-form textarea {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent input fields */
-    color: #fff;
-    box-sizing: border-box;
-    transition: background-color 0.3s ease;
+/* Portfolio and Projects Section Styles */
+.portfolio {
+    margin-bottom: 20px;
 }
 
-.contact-form input[type="text"]:focus,
-.contact-form input[type="email"]:focus,
-.contact-form textarea:focus {
-    background-color: rgba(255, 255, 255, 0.3);
-    outline: none;
+.portfolio a {
+    color: #0074e4;
+    text-decoration: none;
 }
 
-.contact-form button {
-    background: linear-gradient(135deg, #ffcc00, #ff9900); /* Yellow to orange gradient */
-    color: #333;
-    border: none;
-    padding: 15px 30px;
-    font-size: 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+.portfolio a:hover {
+    text-decoration: underline;
 }
 
-.contact-form button:hover {
-    background: linear-gradient(135deg, #ff9900, #ffcc00);
-    transform: scale(1.05);
+/* Awards and Recognitions Section Styles */
+.awards {
+    margin-bottom: 20px;
 }
 
-/* Footer styles with vibrant accents */
+.awards ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.awards ul li {
+    margin-bottom: 10px;
+}
+
+/* Hobbies and Interests Section Styles */
+.hobbies {
+    margin-bottom: 20px;
+}
+
+/* Footer Styles */
 footer {
-    background-color: #333;
+    background-color: #0074e4;
     color: #fff;
     text-align: center;
-    padding: 20px 0;
-    font-size: 14px;
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
+    padding: 10px 0;
+    font-size: 0.9em;
 }
 
-footer:before {
-    content: '';
-    display: block;
-    height: 4px;
-    width: 100%;
-    background: linear-gradient(to right, #0074e4, #ffcc00); /* Blue to yellow gradient */
-    position: absolute;
-    top: 0;
-    left: 0;
+footer p {
+    margin: 0;
 }
-
