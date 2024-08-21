@@ -1,60 +1,78 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title> <!-- Updated title -->
-    <link rel="stylesheet" href="Sol-Hearts-Styles.css"> <!-- Link to custom CSS file for styling -->
+    <meta name="description" content="Portfolio of Andrew Hensley, a dedicated game developer with expertise in game design and programming.">
+    <meta name="keywords" content="Andrew Hensley, game developer, portfolio, game design, programming">
+    <meta property="og:title" content="Andrew Hensley's Portfolio">
+    <meta property="og:description" content="Explore the portfolio of Andrew Hensley, showcasing game development projects and technical skills.">
+    <meta property="og:image" content="imgs/andrew-hensley (1).jpg">
+    <meta property="og:url" content="https://your-portfolio-url.com">
+    <title>Andrew Hensley's Portfolio</title>
+    <link rel="stylesheet" href="Sol-Hearts-Styles.css">
     <style>
-        /* Reset default styles and provide a modern layout */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #1c1c1c;
-            color: #fff; /* Text color */
+        /* CSS Variables for Reusability */
+        :root {
+            --primary-color: #0074e4;
+            --secondary-color: #0048a8;
+            --text-color: #fff;
+            --bg-dark: #1c1c1c;
+            --bg-medium: #2e2e2e;
+            --bg-light: #333;
+            --transition: 0.3s ease;
+            --font-family: 'Arial', sans-serif;
         }
 
-        /* Header with a dark background and gradient */
+        /* Reset and Basic Styles */
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+        }
+
+        /* Header Styles */
         header {
-            background: linear-gradient(to bottom, #0074e4, #0048a8);
-            color: #fff;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
             text-align: center;
             padding: 40px 0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        /* Navigation menu styles */
+        /* Navigation Styles */
         nav ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
+            display: flex;
+            justify-content: center;
         }
 
         nav ul li {
-            display: inline;
             margin-right: 20px;
         }
 
         nav ul li a {
             text-decoration: none;
-            color: #fff;
+            color: var(--text-color);
             font-weight: bold;
             font-size: 16px;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
+            transition: color var(--transition), text-shadow var(--transition);
         }
 
         nav ul li a:hover {
-            color: #00bfff; /* Hover color */
+            color: #00bfff;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
 
-        /* Developer section with double-spaced paragraphs */
+        /* Developer Section Styles */
         section#the-developer {
             padding: 80px 20px;
             text-align: center;
-            background-color: #2e2e2e;
+            background-color: var(--bg-medium);
         }
 
         section#the-developer h2 {
@@ -64,22 +82,22 @@
 
         section#the-developer img {
             max-width: 150px;
-            border-radius: 75px;
+            border-radius: 50%;
             margin-bottom: 20px;
         }
 
         section#the-developer p {
             font-size: 18px;
-            line-height: 2.0; /* Double spacing */
+            line-height: 2.0;
             margin: 20px auto;
             max-width: 800px;
-            color: #d0d0d0; /* Lighter text color */
+            color: #d0d0d0;
             text-align: justify;
         }
 
-        /* Design section */
+        /* Design Section Styles */
         section#design {
-            background-color: #2e2e2e;
+            background-color: var(--bg-medium);
             padding: 80px 20px;
             text-align: center;
         }
@@ -88,7 +106,7 @@
             width: 80%;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: var(--text-color);
             border-radius: 10px;
         }
 
@@ -98,21 +116,26 @@
             border: none;
         }
 
-        /* Portfolio section with card-style game projects */
+        /* Portfolio Section Styles */
         section#portfolio {
-            background-color: #333;
+            background-color: var(--bg-light);
             padding: 80px 20px;
             text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .game {
-            background-color: #1e1e1e;
+            background-color: var(--bg-medium);
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             padding: 20px;
             margin: 20px;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform var(--transition), box-shadow var(--transition);
+            flex: 1 1 calc(33.333% - 40px);
+            box-sizing: border-box;
         }
 
         .game:hover {
@@ -124,16 +147,16 @@
             max-width: 100%;
             height: auto;
             border-radius: 8px;
-            transition: opacity 0.3s ease;
+            transition: opacity var(--transition);
         }
 
         .game img:hover {
             opacity: 0.9;
         }
 
-        /* Contact section with a contact form */
+        /* Contact Section Styles */
         section#contact {
-            background-color: #1c1c1c;
+            background-color: var(--bg-dark);
             padding: 80px 20px;
             text-align: center;
         }
@@ -155,41 +178,51 @@
             border: none;
             border-radius: 5px;
             background-color: rgba(255, 255, 255, 0.1);
-            color: #fff;
+            color: var(--text-color);
             font-size: 16px;
             box-sizing: border-box;
         }
 
         .contact-form input[type="submit"] {
-            background: linear-gradient(to bottom, #0074e4, #0048a8);
-            color: #fff;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
             border: none;
             border-radius: 5px;
             padding: 15px 25px;
             cursor: pointer;
             font-size: 16px;
-            transition: background 0.3s ease, transform 0.3s ease;
+            transition: background var(--transition), transform var(--transition);
         }
 
         .contact-form input[type="submit"]:hover {
-            background: linear-gradient(to bottom, #0048a8, #0074e4);
+            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             transform: scale(1.05);
         }
 
-        /* Footer styles */
+        /* Footer Styles */
         footer {
-            background-color: #333;
-            color: #fff;
+            background-color: var(--bg-light);
+            color: var(--text-color);
             text-align: center;
             padding: 20px;
             font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            .game {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Portfolio</h1> <!-- Updated title -->
-        <nav>
+        <h1>Andrew Hensley's Portfolio</h1>
+        <nav role="navigation">
             <ul>
                 <li><a href="#the-developer">The Developer</a></li>
                 <li><a href="#design">Design Document</a></li>
@@ -203,41 +236,31 @@
         <h2>The Developer</h2>
         <img src="imgs/andrew-hensley (1).jpg" alt="Andrew Hensley">
         <p>
----
-
-Andrew Hensley is a dedicated game developer with a deep passion for crafting immersive and innovative gaming experiences. His love for video games led him to pursue a Bachelor of Arts in Hospitality, Tourism & Events from Metropolitan State University of Denver, and later, an Associate of Applied Science in Game Development from Red Rocks Community College. Along with his formal education, Andrew has earned several certifications in game and software development, further honing his expertise in the field.
-
-Andrew’s technical skills are extensive, including proficiency in programming languages such as C++, Python, and Java, as well as hands-on experience with game engines like Unreal, Unity, and Maya. He also has a strong grasp of 3D modeling and animation through his work with Blender, where he enjoys creating detailed assets that enhance the visual storytelling in his games.
-
-In his current role as the Lead Game Design Intern at Sports Media Inc., Andrew leads a team of interns in developing cutting-edge game projects. He combines his technical know-how with a creative approach to design, producing engaging and innovative gameplay experiences.
-
-Beyond his professional pursuits, Andrew is an avid gamer who draws inspiration from the games he plays. He is also deeply involved in the gaming community, where he connects with fellow enthusiasts and keeps up with the latest industry trends. Additionally, Andrew has a keen interest in learning Japanese, driven by his fascination with Japanese games and culture, which he hopes will further enrich his game development journey.
-
-Andrew is eager to continue advancing his career in game development, particularly in roles that allow him to explore new frontiers in game design, animation, and storytelling. His dedication to the craft, combined with his curiosity and passion for learning, makes him a valuable asset to any game development team.
-
----
+            Andrew Hensley is a dedicated game developer with a deep passion for crafting immersive and innovative gaming experiences...
         </p>
     </section>
 
     <section id="design">
         <h2>Design Document</h2>
         <div class="pdf-container">
-            <iframe src="Sol Hearts.pdf" title="Sol-Hearts"></iframe>
+            <iframe src="Sol-Hearts.pdf" title="Sol-Hearts"></iframe>
         </div>
     </section>
 
     <section id="game">
         <h2>Game</h2>
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <canvas id="gameCanvas" width="800" height="600">Your browser does not support the canvas element.</canvas>
     </section>
 
     <section id="contact">
         <h2>Contact</h2>
-        <p>Contact me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a></p>
+        <div class="contact-form">
+            <p>Contact me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a></p>
+        </div>
     </section>
 
     <footer>
-        <p>&copy; 2024 Portfolio. All rights reserved.</p>
+        <p>&copy; 2024 Andrew Hensley's Portfolio. All rights reserved.</p>
     </footer>
 
     <script>
@@ -254,35 +277,29 @@ Andrew is eager to continue advancing his career in game development, particular
         backImage.src = cardBackImage;
         frontImage.src = cardFrontImage;
 
-        // Set card dimensions
-        const cardWidth = 100;
-        const cardHeight = 150;
+        // Draw images on canvas after they load
+        backImage.onload = () => {
+            ctx.drawImage(backImage, 10, 10, 100, 150);
+        };
 
-        // Set initial card position
-        let cardX = (canvas.width - cardWidth) / 2;
-        let cardY = (canvas.height - cardHeight) / 2;
+        frontImage.onload = () => {
+            ctx.drawImage(frontImage, 150, 10, 100, 150);
+        };
 
-        // Card flipping state
-        let isCardFlipped = false;
-
-        // Draw the card on the canvas
-        function drawCard() {
+        // Add hover effects and transitions for better UX
+        canvas.addEventListener('mousemove', (event) => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (isCardFlipped) {
-                ctx.drawImage(frontImage, cardX, cardY, cardWidth, cardHeight);
-            } else {
-                ctx.drawImage(backImage, cardX, cardY, cardWidth, cardHeight);
+            ctx.drawImage(backImage, 10, 10, 100, 150);
+            ctx.drawImage(frontImage, 150, 10, 100, 150);
+            if (event.offsetX >= 10 && event.offsetX <= 110 && event.offsetY >= 10 && event.offsetY <= 160) {
+                ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+                ctx.fillRect(10, 10, 100, 150);
+            } else if (event.offsetX >= 150 && event.offsetX <= 250 && event.offsetY >= 10 && event.offsetY <= 160) {
+                ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+                ctx.fillRect(150, 10, 100, 150);
             }
-        }
-
-        // Flip the card on click
-        canvas.addEventListener("click", () => {
-            isCardFlipped = !isCardFlipped;
-            drawCard();
         });
-
-        // Initial draw
-        drawCard();
     </script>
 </body>
 </html>
+
