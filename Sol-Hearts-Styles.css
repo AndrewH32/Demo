@@ -6,113 +6,145 @@ body {
     background-color: #f4f4f4;
     color: #333;
     line-height: 1.6;
+    scroll-behavior: smooth; /* Smooth scrolling */
 }
 
+/* Header with gradient background */
 header {
-    background-color: #0074e4;
+    background: linear-gradient(135deg, #0074e4, #003366);
     color: #fff;
-    padding: 20px 0;
+    padding: 30px 0;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure the header stays on top */
 }
 
 header h1 {
     margin: 0;
-    font-size: 36px;
+    font-size: 40px;
+    letter-spacing: 2px; /* Spacing for a modern look */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* Navigation styles with hover effect */
 nav ul {
     list-style: none;
     padding: 0;
 }
 
 nav ul li {
-    display: inline;
-    margin-right: 20px;
+    display: inline-block;
+    margin-right: 30px;
 }
 
 nav ul li a {
     text-decoration: none;
     color: #fff;
     font-size: 18px;
-    transition: color 0.3s ease;
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 nav ul li a:hover {
     color: #ffcc00;
+    transform: scale(1.1);
 }
 
-/* About section */
+/* About section with a subtle background pattern and shadowed text */
 section#about {
     background-color: #fff;
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
+    background: url('pattern.png') repeat; /* Add a subtle background pattern */
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
 }
 
 section#about h2 {
-    font-size: 28px;
+    font-size: 32px;
     margin-bottom: 20px;
+    color: #0074e4;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 section#about p {
-    font-size: 18px;
-    max-width: 800px;
+    font-size: 20px;
+    max-width: 900px;
     margin: 0 auto;
     color: #555;
+    line-height: 1.8;
 }
 
-/* Portfolio section */
+/* Portfolio section with hover animation */
 section#portfolio {
     background-color: #e8e8e8;
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
 }
 
 .portfolio-item {
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    padding: 30px;
     margin: 20px;
     display: inline-block;
     vertical-align: top;
-    width: calc(50% - 40px);
+    width: calc(45% - 40px);
     box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .portfolio-item img {
     max-width: 100%;
     border-radius: 8px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    transition: opacity 0.3s ease;
+}
+
+.portfolio-item img:hover {
+    opacity: 0.9;
 }
 
 .portfolio-item h3 {
-    font-size: 22px;
-    margin-bottom: 10px;
+    font-size: 24px;
+    margin-bottom: 15px;
     color: #0074e4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .portfolio-item p {
-    font-size: 16px;
+    font-size: 18px;
     color: #666;
+    line-height: 1.6;
 }
 
-/* Contact section */
+/* Contact section with form styling and gradient button */
 section#contact {
     background-color: #0074e4;
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
     color: #fff;
 }
 
 section#contact h2 {
-    font-size: 28px;
+    font-size: 32px;
     margin-bottom: 20px;
+    text-transform: uppercase;
 }
 
 section#contact p {
-    font-size: 18px;
+    font-size: 20px;
     margin-bottom: 30px;
+    color: #e0e0e0;
 }
 
 .contact-form {
@@ -127,31 +159,56 @@ section#contact p {
     padding: 15px;
     margin-bottom: 15px;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
-.contact-form button {
-    background-color: #ffcc00;
-    color: #333;
-    border: none;
-    padding: 15px 30px;
+    border-radius: 8px;
     font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    box-sizing: border-box;
     transition: background-color 0.3s ease;
 }
 
-.contact-form button:hover {
-    background-color: #e6b800;
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    background-color: rgba(255, 255, 255, 0.3);
+    outline: none;
 }
 
-/* Footer styles */
+.contact-form button {
+    background: linear-gradient(135deg, #ffcc00, #e6b800);
+    color: #333;
+    border: none;
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.contact-form button:hover {
+    background: linear-gradient(135deg, #e6b800, #ffcc00);
+    transform: scale(1.05);
+}
+
+/* Footer styles with subtle effects */
 footer {
     background-color: #333;
     color: #fff;
     text-align: center;
     padding: 20px 0;
     font-size: 14px;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
+
+footer:before {
+    content: '';
+    display: block;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(to right, #0074e4, #ffcc00);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
