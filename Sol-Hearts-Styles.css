@@ -1,50 +1,29 @@
-/* Reset default styles and provide a modern layout */
+/* General styles */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(45deg, #1c1c1c, #333, #1c1c1c);
-    background-size: 600% 600%;
-    color: #fff; /* Text color */
-    animation: backgroundShift 20s ease infinite;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
 }
 
-@keyframes backgroundShift {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
-
-/* Header with a dark background and gradient */
 header {
-    background: linear-gradient(to bottom, #0074e4, #0048a8);
+    background-color: #0074e4;
     color: #fff;
+    padding: 20px 0;
     text-align: center;
-    padding: 40px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo with a spinning animation */
-.logo {
-    max-width: 120px;
-    margin-bottom: 20px;
-    animation: logoSpin 10s infinite linear;
-}
-
-@keyframes logoSpin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* Navigation menu styles */
-nav ul {
-    list-style-type: none;
-    padding: 0;
+header h1 {
     margin: 0;
+    font-size: 36px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
 }
 
 nav ul li {
@@ -55,108 +34,117 @@ nav ul li {
 nav ul li a {
     text-decoration: none;
     color: #fff;
-    font-weight: bold;
-    font-size: 16px;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
+    font-size: 18px;
+    transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #00bfff; /* Hover color */
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    color: #ffcc00;
 }
 
-/* About section with a subtle background pattern */
+/* About section */
 section#about {
-    background-color: #2e2e2e;
-    padding: 80px 20px;
+    background-color: #fff;
+    padding: 60px 20px;
     text-align: center;
+}
+
+section#about h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
 }
 
 section#about p {
     font-size: 18px;
-    line-height: 1.8;
-    margin: 20px auto;
     max-width: 800px;
-    color: #d0d0d0; /* Lighter text color */
+    margin: 0 auto;
+    color: #555;
 }
 
-/* Portfolio section with card-style game projects */
+/* Portfolio section */
 section#portfolio {
-    background-color: #333;
-    padding: 80px 20px;
+    background-color: #e8e8e8;
+    padding: 60px 20px;
     text-align: center;
 }
 
-.game {
-    background-color: #1e1e1e;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+.portfolio-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 20px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    vertical-align: top;
+    width: calc(50% - 40px);
+    box-sizing: border-box;
 }
 
-.game:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff, 0 0 45px #00bfff;
-}
-
-.game img {
+.portfolio-item img {
     max-width: 100%;
-    height: auto;
     border-radius: 8px;
-    transition: opacity 0.3s ease;
+    margin-bottom: 15px;
 }
 
-.game img:hover {
-    opacity: 0.9;
+.portfolio-item h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #0074e4;
 }
 
-/* Contact section with a contact form */
+.portfolio-item p {
+    font-size: 16px;
+    color: #666;
+}
+
+/* Contact section */
 section#contact {
-    background-color: #1c1c1c;
-    padding: 80px 20px;
+    background-color: #0074e4;
+    padding: 60px 20px;
     text-align: center;
+    color: #fff;
+}
+
+section#contact h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+section#contact p {
+    font-size: 18px;
+    margin-bottom: 30px;
 }
 
 .contact-form {
     max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
+.contact-form input[type="text"],
 .contact-form input[type="email"],
 .contact-form textarea {
     width: 100%;
     padding: 15px;
-    margin: 10px 0;
+    margin-bottom: 15px;
     border: none;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
     font-size: 16px;
     box-sizing: border-box;
 }
 
-.contact-form input[type="submit"] {
-    background: linear-gradient(to bottom, #0074e4, #0048a8);
-    color: #fff;
+.contact-form button {
+    background-color: #ffcc00;
+    color: #333;
     border: none;
+    padding: 15px 30px;
+    font-size: 18px;
     border-radius: 5px;
-    padding: 15px 25px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
-.contact-form input[type="submit"]:hover {
-    background: linear-gradient(to bottom, #0048a8, #0074e4);
-    transform: scale(1.05);
-    box-shadow: 0 0 10px #0074e4, 0 0 20px #0074e4, 0 0 30px #0074e4;
+.contact-form button:hover {
+    background-color: #e6b800;
 }
 
 /* Footer styles */
@@ -164,6 +152,6 @@ footer {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 20px;
+    padding: 20px 0;
     font-size: 14px;
 }
