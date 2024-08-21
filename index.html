@@ -6,42 +6,72 @@
     <title>Sol-Hearts</title>
     <link rel="stylesheet" href="Sol-Hearts-Styles.css"> <!-- Link to custom CSS file for styling -->
     <style>
-        /* Define any additional CSS styles for your canvas or other elements here */
         body {
             text-align: center; /* Center align everything */
+            margin: 0; /* Remove default margin */
+            font-family: Arial, sans-serif; /* Apply a default font */
         }
 
-	       /* Center the PDF within its container */
+        header {
+            background-color: #f4f4f4; /* Light background for header */
+            padding: 1em 0; /* Add padding for better spacing */
+        }
+
+        nav ul {
+            list-style-type: none; /* Remove default list styling */
+            padding: 0; /* Remove padding */
+        }
+
+        nav ul li {
+            display: inline; /* Display list items inline */
+            margin: 0 15px; /* Space out list items */
+        }
+
+        nav ul li a {
+            text-decoration: none; /* Remove underline from links */
+            color: #333; /* Dark color for text */
+        }
+
         .pdf-container {
-            width: 800px; /* Adjust the width as needed */
-            height: 600px; /* Adjust the height as needed */
+            width: 80%; /* Responsive width */
+            max-width: 800px; /* Maximum width */
+            height: 600px; /* Fixed height */
+            margin: 0 auto; /* Center container */
             display: flex;
             justify-content: center;
             align-items: center;
         }
-	        .pdf-container iframe {
+
+        .pdf-container iframe {
             width: 100%;
             height: 100%;
-            display: block;
+            border: none; /* Remove border from iframe */
         }
 
         canvas {
             border: 1px solid black;
             display: block;
-            margin: 0 auto; /* Center the canvas */
+            margin: 20px auto; /* Add margin for spacing */
         }
 
-        </style>
+        footer {
+            background-color: #f4f4f4; /* Light background for footer */
+            padding: 1em 0; /* Add padding */
+        }
+
+        footer p {
+            margin: 0; /* Remove default margin */
+        }
+    </style>
 </head>
 <body>
-    
     <header>
         <h1>Sol-Hearts</h1>
         <nav>
             <ul>
                 <li><a href="#design">Design Document</a></li>
                 <li><a href="#game">Game</a></li>
-                <li><a href="the developer">The Developer</a></li>
+                <li><a href="#the-developer">The Developer</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -50,17 +80,32 @@
     <section id="design">
         <h2>Design Document</h2>
         <div class="pdf-container">
-            <iframe src="Sol Hearts.pdf" title="Sol-Hearts" frameborder="0"></iframe>
+            <iframe src="Sol Hearts.pdf" title="Sol-Hearts"></iframe>
         </div>
     </section>
 
     <section id="game">
         <h2>Game</h2>
-        <!-- Canvas for the game -->
         <canvas id="gameCanvas" width="800" height="600"></canvas>
     </section>
-<script>
-          const canvas = document.getElementById("gameCanvas");
+
+    <section id="the-developer">
+        <h2>The Developer</h2>
+        <img src="imgs/andrew-hensley (1).jpg" alt="Andrew Hensley">
+        <p>
+            Andrew Hensley is a highly motivated individual with a diverse educational background and extensive work experience spanning over a decade. In 2016, Andrew completed a Bachelor of Arts in Hospitality, Tourism & Events, showcasing his versatility and adaptability across different fields. Additionally, he pursued an Associate of Applied Science in Game Development, graduating from Red Rocks Community College with a focus on database design, programming languages, and game design.
+            Andrew's educational journey is complemented by a robust collection of certificates, including those in Game Development, Software Development, and various aspects of Web Development. His commitment to continuous learning is evident through the completion of courses ranging from Sustainable Tourism and Global Meetings & Events to Network Security Fundamentals and Advanced Python Programming.
+            With over a decade of work experience, Andrew has demonstrated his versatility in various roles. He is passionate about game development and has contributed to several projects, including Sol Hearts, Actium, and Red Beard, showcasing his creativity and technical skills in the field. Andrew's diverse background, coupled with his dedication to learning and professional growth, positions him as a valuable asset in any team or organization.
+        </p>
+    </section>
+
+    <footer id="contact">
+        <h2>Contact</h2>
+        <p>Contact me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a></p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
         // Define image URLs
@@ -74,127 +119,89 @@
 
         const TRACK = new Image();
         TRACK.src = "imgs/track.png";
-        TRACK.onload = () => {
-            draw();
-        };
+        TRACK.onload = draw;
 
         const FINISH = new Image();
         FINISH.src = "imgs/finish.png";
-        FINISH.onload = () => {
-            draw();
-        };
+        FINISH.onload = draw;
 
         const GREEN_ROCKET = new Image();
         GREEN_ROCKET.src = "imgs/green-rocket.png";
-        GREEN_ROCKET.onload = () => {
-            draw();
-        };
+        GREEN_ROCKET.onload = draw;
 
-        const MAIN_FONT = "44px sans-serif"; // Fixed the typo
+        const MAIN_FONT = "44px sans-serif";
 
         // Game logic variables
         const gameInfo = {
             level: 1,
             getLevelTime() {
-                // Your logic to get the level time
                 return 60; // Example time
             }
         };
 
-        const FPS = 60; // Frames per second
-        const frameDelay = 1000 / FPS; // Delay between frames in milliseconds
+        const FPS = 60;
+        const frameDelay = 1000 / FPS;
         let lastFrameTime = 0;
 
         const playerCar = {
             x: 130,
             y: 140,
             angle: 0,
-            vel: 5, // Initial velocity
+            vel: 5,
             image: GREEN_ROCKET
         };
 
         function draw() {
-            // Clear the canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw the background and other static elements
             ctx.drawImage(SPACE, 0, 0, SPACE.width, SPACE.height);
-
-            // Scale and draw the track
             ctx.drawImage(TRACK, 0, 0, SPACE.width, SPACE.height);
-
-            // Scale and draw the finish line
-            ctx.drawImage(FINISH, 130 * (SPACE.width / 800), 250 * (SPACE.height / 600),  // Adjusted positions and sizes
+            ctx.drawImage(FINISH, 130 * (SPACE.width / 800), 250 * (SPACE.height / 600),
                 FINISH.width * (SPACE.width / 800), FINISH.height * (SPACE.height / 600));
-
-            // Draw the scaled player's car
-            drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle, 0.20); // Adjusted scale
-
-            // Check for collisions between player's car and track boundaries
+            drawRotatedImage(playerCar.image, playerCar.x, playerCar.y, playerCar.angle, 0.20);
             checkCollision(playerCar);
         }
 
-        // Function to draw a rotated and scaled image
         function drawRotatedImage(image, x, y, angle, scale) {
-            ctx.save(); // Save the current canvas state
-            ctx.translate(x, y); // Translate to the image center
-            ctx.rotate(angle * Math.PI / 180); // Rotate
-            ctx.scale(scale, scale); // Scale
-            ctx.drawImage(image, -image.width / 2, -image.height / 2); // Draw the image centered
-            ctx.restore(); // Restore the saved canvas state
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle * Math.PI / 180);
+            ctx.scale(scale, scale);
+            ctx.drawImage(image, -image.width / 2, -image.height / 2);
+            ctx.restore();
         }
 
-        // Function to check for collision between a car and track boundaries
         function checkCollision(car) {
             if (car.x < 0 || car.x > canvas.width || car.y < 0 || car.y > canvas.height) {
-                // Collision detected with track boundary
                 console.log("Collision detected with track boundary!");
-                // Implement actions to handle collision (e.g., reset car position)
             }
         }
 
-        // Main game loop
         function gameLoop(currentTime) {
-            // Calculate time difference since the last frame
             const deltaTime = currentTime - lastFrameTime;
-
-            // Check if it's time to update the frame
             if (deltaTime > frameDelay) {
-                // Update the last frame time
                 lastFrameTime = currentTime - (deltaTime % frameDelay);
-
-                // Redraw the canvas with updated positions
                 draw();
             }
-
-            // Request the next frame
             requestAnimationFrame(gameLoop);
         }
 
-        // Start the game loop
         requestAnimationFrame(gameLoop);
 
-        // Add event listener for keyboard input to control player's car
         document.addEventListener("keydown", handleKeyDown);
 
         function handleKeyDown(event) {
-            // Example: varied keys control the player's car movement
             switch (event.key) {
                 case "w":
-                    // Move forward
                     movePlayerCar(playerCar.vel);
                     break;
                 case "d":
-                    // Move backward (optional)
-                    movePlayerCar(-playerCar.vel / 2); // Reduce speed when moving backward
+                    movePlayerCar(-playerCar.vel / 2);
                     break;
                 case "k":
-                    // Rotate left
-                    playerCar.angle -= 5; // Adjust rotation angle as needed
+                    playerCar.angle -= 5;
                     break;
                 case "l":
-                    // Rotate right
-                    playerCar.angle += 5; // Adjust rotation angle as needed
+                    playerCar.angle += 5;
                     break;
                 default:
                     break;
@@ -202,35 +209,10 @@
         }
 
         function movePlayerCar(velocity) {
-            // Calculate new position based on velocity and angle
             playerCar.x += velocity * Math.sin(playerCar.angle * Math.PI / 180);
             playerCar.y -= velocity * Math.cos(playerCar.angle * Math.PI / 180);
-
-            // Optional: Implement boundary checking to keep the car within the track
-            // Example: Check if the new position is within the canvas boundaries
-
-            // Redraw the canvas with the updated positions
             draw();
         }
     </script>
-
-    <section id="the developer">
-        <h2>The Developer</h2>
-        <img src="imgs/andrew-hensley (1).jpg" alt="Andrew pic">
-        <p>
-Andrew Hensley is a highly motivated individual with a diverse educational background and extensive work experience spanning over a decade. In 2016 Andrew completed a Bachelor of Arts in Hospitality, Tourism & Events, showcasing his versatility and adaptability across different fields. Additionally, he pursued an Associate of Applied Science in Game Development, graduating from Red Rocks Community College with a focus on database design, programming languages, and game design.
-Andrew's educational journey is complemented by a robust collection of certificates, including those in Game Development, Software Development, and various aspects of Web Development. His commitment to continuous learning is evident through the completion of courses ranging from Sustainable Tourism and Global Meetings & Events to Network Security Fundamentals and Advanced Python Programming.
-With over a decade of work experience, Andrew has demonstrated his versatility in various roles. Andrew is passionate about game development. He has contributed to several projects, including Sol Hearts, Actium, and Red Beard, showcasing his creativity and technical skills in the field. Andrew's diverse background, coupled with his dedication to learning and professional growth, positions him as a valuable asset in any team or organization.
-	 </p>
-    </section>
-
-    <footer id="contact">
-        <h2>Contact</h2>
-        <p>Contact me at poweredbydreams92@gmail.com</p>
-    </footer>
 </body>
 </html>
-
-
-
-           
