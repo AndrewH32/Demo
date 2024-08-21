@@ -1,144 +1,293 @@
-/* Reset default styles and provide a modern layout */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #1c1c1c;
-    color: #fff; /* Text color */
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sol-Hearts</title>
+    <link rel="stylesheet" href="Sol-Hearts-Styles.css"> <!-- Link to custom CSS file for styling -->
+    <style>
+        /* Reset default styles and provide a modern layout */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1c;
+            color: #fff; /* Text color */
+        }
 
-/* Header with a dark background and gradient */
-header {
-    background: linear-gradient(to bottom, #0074e4, #0048a8);
-    color: #fff;
-    text-align: center;
-    padding: 40px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
+        /* Header with a dark background and gradient */
+        header {
+            background: linear-gradient(to bottom, #0074e4, #0048a8);
+            color: #fff;
+            text-align: center;
+            padding: 40px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
 
-/* Navigation menu styles */
-nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
+        /* Navigation menu styles */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
 
-nav ul li {
-    display: inline;
-    margin-right: 20px;
-}
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
 
-nav ul li a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    font-size: 16px;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-}
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
 
-nav ul li a:hover {
-    color: #00bfff; /* Hover color */
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
+        nav ul li a:hover {
+            color: #00bfff; /* Hover color */
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
 
-/* About section with a subtle background pattern */
-section#about {
-    background-color: #2e2e2e;
-    padding: 80px 20px;
-    text-align: center;
-}
+        /* Developer section with double-spaced paragraphs */
+        section#the-developer {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: #2e2e2e;
+        }
 
-section#about p {
-    font-size: 18px;
-    line-height: 1.8;
-    margin: 20px auto;
-    max-width: 800px;
-    color: #d0d0d0; /* Lighter text color */
-}
+        section#the-developer h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
 
-/* Portfolio section with card-style game projects */
-section#portfolio {
-    background-color: #333;
-    padding: 80px 20px;
-    text-align: center;
-}
+        section#the-developer img {
+            max-width: 150px;
+            border-radius: 75px;
+            margin-bottom: 20px;
+        }
 
-.game {
-    background-color: #1e1e1e;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    margin: 20px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+        section#the-developer p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin: 20px auto;
+            max-width: 800px;
+            color: #d0d0d0; /* Lighter text color */
+            text-align: justify;
+        }
 
-.game:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-}
+        /* Design section */
+        section#design {
+            background-color: #2e2e2e;
+            padding: 80px 20px;
+            text-align: center;
+        }
 
-.game img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    transition: opacity 0.3s ease;
-}
+        .pdf-container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
 
-.game img:hover {
-    opacity: 0.9;
-}
+        .pdf-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
 
-/* Contact section with a contact form */
-section#contact {
-    background-color: #1c1c1c;
-    padding: 80px 20px;
-    text-align: center;
-}
+        /* Portfolio section with card-style game projects */
+        section#portfolio {
+            background-color: #333;
+            padding: 80px 20px;
+            text-align: center;
+        }
 
-.contact-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
+        .game {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.contact-form input[type="email"],
-.contact-form textarea {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    font-size: 16px;
-    box-sizing: border-box;
-}
+        .game:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
 
-.contact-form input[type="submit"] {
-    background: linear-gradient(to bottom, #0074e4, #0048a8);
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 15px 25px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease, transform 0.3s ease;
-}
+        .game img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: opacity 0.3s ease;
+        }
 
-.contact-form input[type="submit"]:hover {
-    background: linear-gradient(to bottom, #0048a8, #0074e4);
-    transform: scale(1.05);
-}
+        .game img:hover {
+            opacity: 0.9;
+        }
 
-/* Footer styles */
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    font-size: 14px;
-}
+        /* Contact section with a contact form */
+        section#contact {
+            background-color: #1c1c1c;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .contact-form input[type="submit"] {
+            background: linear-gradient(to bottom, #0074e4, #0048a8);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .contact-form input[type="submit"]:hover {
+            background: linear-gradient(to bottom, #0048a8, #0074e4);
+            transform: scale(1.05);
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sol-Hearts</h1>
+        <nav>
+            <ul>
+                <li><a href="#the-developer">The Developer</a></li>
+                <li><a href="#design">Design Document</a></li>
+                <li><a href="#game">Game</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="the-developer">
+        <h2>The Developer</h2>
+        <img src="imgs/andrew-hensley (1).jpg" alt="Andrew Hensley">
+        <p>
+            Andrew Hensley is a highly motivated individual with a diverse educational background and extensive work experience spanning over a decade. In 2016, Andrew completed a Bachelor of Arts in Hospitality, Tourism & Events, showcasing his versatility and adaptability across different fields. Additionally, he pursued an Associate of Applied Science in Game Development, graduating from Red Rocks Community College with a focus on database design, programming languages, and game design.
+        </p>
+        <p>
+            Andrew's educational journey is complemented by a robust collection of certificates, including those in Game Development, Software Development, and various aspects of Web Development. His commitment to continuous learning is evident through the completion of courses ranging from Sustainable Tourism and Global Meetings & Events to Network Security Fundamentals and Advanced Python Programming.
+        </p>
+        <p>
+            With over a decade of work experience, Andrew has demonstrated his versatility in various roles. He is passionate about game development and has contributed to several projects, including Sol Hearts, Actium, and Red Beard, showcasing his creativity and technical skills in the field. Andrew's diverse background, coupled with his dedication to learning and professional growth, positions him as a valuable asset in any team or organization.
+        </p>
+    </section>
+
+    <section id="design">
+        <h2>Design Document</h2>
+        <div class="pdf-container">
+            <iframe src="Sol Hearts.pdf" title="Sol-Hearts"></iframe>
+        </div>
+    </section>
+
+    <section id="game">
+        <h2>Game</h2>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Contact me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Sol-Hearts. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Define image URLs
+        const SPACE = new Image();
+        SPACE.src = "imgs/space.jpg";
+        SPACE.onload = () => {
+            canvas.width = SPACE.width;
+            canvas.height = SPACE.height;
+            draw();
+        };
+
+        const TRACK = new Image();
+        TRACK.src = "imgs/track.png";
+        TRACK.onload = draw;
+
+        const FINISH = new Image();
+        FINISH.src = "imgs/finish.png";
+        FINISH.onload = draw;
+
+        const GREEN_ROCKET = new Image();
+        GREEN_ROCKET.src = "imgs/green-rocket.png";
+        GREEN_ROCKET.onload = draw;
+
+        const MAIN_FONT = "44px sans-serif";
+
+        // Game logic variables
+        const gameInfo = {
+            level: 1,
+            getLevelTime() {
+                return 60; // Example time
+            }
+        };
+
+        const FPS = 60;
+        const frameDelay = 1000 / FPS;
+        let lastFrameTime = 0;
+
+        const playerCar = {
+            x: 130,
+            y: 140,
+            angle: 0,
+            vel: 5,
+            image: GREEN_ROCKET
+        };
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(SPACE, 0, 0, SPACE.width, SPACE.height);
+            ctx.drawImage(TRACK, 0, 0, SPACE.width, SPACE.height);
+            ctx.drawImage(FINISH, 0, 0, SPACE.width, SPACE.height);
+            ctx.drawImage(playerCar.image, playerCar.x, playerCar.y);
+        }
+    </script>
+</body>
+</html>
+
