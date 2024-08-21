@@ -3,32 +3,32 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #fafafa; /* Light background */
     color: #333;
     line-height: 1.6;
-    scroll-behavior: smooth; /* Smooth scrolling */
+    scroll-behavior: smooth;
 }
 
 /* Header with gradient background */
 header {
-    background: linear-gradient(135deg, #0074e4, #003366);
+    background: linear-gradient(135deg, #0074e4, #00c6ff); /* Blue gradient */
     color: #fff;
     padding: 30px 0;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
-    z-index: 1000; /* Ensure the header stays on top */
+    z-index: 1000;
 }
 
 header h1 {
     margin: 0;
     font-size: 40px;
-    letter-spacing: 2px; /* Spacing for a modern look */
+    letter-spacing: 2px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Navigation styles with hover effect */
+/* Navigation styles with vibrant hover effect */
 nav ul {
     list-style: none;
     padding: 0;
@@ -48,23 +48,22 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #ffcc00;
+    color: #ffcc00; /* Bright yellow hover effect */
     transform: scale(1.1);
 }
 
-/* About section with a subtle background pattern and shadowed text */
+/* About section with colorful background */
 section#about {
-    background-color: #fff;
+    background-color: #ffcc00; /* Vibrant yellow background */
     padding: 80px 20px;
     text-align: center;
-    background: url('pattern.png') repeat; /* Add a subtle background pattern */
-    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.1);
 }
 
 section#about h2 {
     font-size: 32px;
     margin-bottom: 20px;
-    color: #0074e4;
+    color: #0074e4; /* Blue text */
     text-transform: uppercase;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
@@ -73,11 +72,11 @@ section#about p {
     font-size: 20px;
     max-width: 900px;
     margin: 0 auto;
-    color: #555;
+    color: #333;
     line-height: 1.8;
 }
 
-/* Portfolio section with hover animation */
+/* Portfolio section with colorful cards */
 section#portfolio {
     background-color: #e8e8e8;
     padding: 80px 20px;
@@ -127,9 +126,9 @@ section#portfolio {
     line-height: 1.6;
 }
 
-/* Contact section with form styling and gradient button */
+/* Contact section with a cool gradient */
 section#contact {
-    background-color: #0074e4;
+    background: linear-gradient(135deg, #0074e4, #4a90e2); /* Blue gradient */
     padding: 80px 20px;
     text-align: center;
     color: #fff;
@@ -161,7 +160,7 @@ section#contact p {
     border: none;
     border-radius: 8px;
     font-size: 18px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent input fields */
     color: #fff;
     box-sizing: border-box;
     transition: background-color 0.3s ease;
@@ -175,7 +174,7 @@ section#contact p {
 }
 
 .contact-form button {
-    background: linear-gradient(135deg, #ffcc00, #e6b800);
+    background: linear-gradient(135deg, #ffcc00, #ff9900); /* Yellow to orange gradient */
     color: #333;
     border: none;
     padding: 15px 30px;
@@ -186,11 +185,11 @@ section#contact p {
 }
 
 .contact-form button:hover {
-    background: linear-gradient(135deg, #e6b800, #ffcc00);
+    background: linear-gradient(135deg, #ff9900, #ffcc00);
     transform: scale(1.05);
 }
 
-/* Footer styles with subtle effects */
+/* Footer styles with vibrant accents */
 footer {
     background-color: #333;
     color: #fff;
@@ -206,7 +205,7 @@ footer:before {
     display: block;
     height: 4px;
     width: 100%;
-    background: linear-gradient(to right, #0074e4, #ffcc00);
+    background: linear-gradient(to right, #0074e4, #ffcc00); /* Blue to yellow gradient */
     position: absolute;
     top: 0;
     left: 0;
