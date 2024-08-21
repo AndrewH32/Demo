@@ -3,303 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Andrew Hensley, a dedicated game developer with expertise in game design and programming.">
-    <meta name="keywords" content="Andrew Hensley, game developer, portfolio, game design, programming">
-    <meta property="og:title" content="Andrew Hensley's Portfolio">
-    <meta property="og:description" content="Explore the portfolio of Andrew Hensley, showcasing game development projects and technical skills.">
-    <meta property="og:image" content="imgs/andrew-hensley (1).jpg">
-    <meta property="og:url" content="https://your-portfolio-url.com">
     <title>Andrew Hensley's Portfolio</title>
-    <link rel="stylesheet" href="Sol-Hearts-Styles.css">
-    <style>
-        /* CSS Variables for Reusability */
-        :root {
-            --primary-color: #0074e4;
-            --secondary-color: #0048a8;
-            --text-color: #fff;
-            --bg-dark: #1c1c1c;
-            --bg-medium: #2e2e2e;
-            --bg-light: #333;
-            --transition: 0.3s ease;
-            --font-family: 'Arial', sans-serif;
-        }
-
-        /* Reset and Basic Styles */
-        body {
-            font-family: var(--font-family);
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-color);
-        }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-            color: var(--text-color);
-            text-align: center;
-            padding: 40px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Navigation Styles */
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        nav ul li {
-            margin-right: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: bold;
-            font-size: 16px;
-            transition: color var(--transition), text-shadow var(--transition);
-        }
-
-        nav ul li a:hover {
-            color: #00bfff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Developer Section Styles */
-        section#the-developer {
-            padding: 80px 20px;
-            text-align: center;
-            background-color: var(--bg-medium);
-        }
-
-        section#the-developer h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        section#the-developer img {
-            max-width: 150px;
-            border-radius: 50%;
-            margin-bottom: 20px;
-        }
-
-        section#the-developer p {
-            font-size: 18px;
-            line-height: 2.0;
-            margin: 20px auto;
-            max-width: 800px;
-            color: #d0d0d0;
-            text-align: justify;
-        }
-
-        /* Design Section Styles */
-        section#design {
-            background-color: var(--bg-medium);
-            padding: 80px 20px;
-            text-align: center;
-        }
-
-        .pdf-container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: var(--text-color);
-            border-radius: 10px;
-        }
-
-        .pdf-container iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-        }
-
-        /* Portfolio Section Styles */
-        section#portfolio {
-            background-color: var(--bg-light);
-            padding: 80px 20px;
-            text-align: center;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .game {
-            background-color: var(--bg-medium);
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            margin: 20px;
-            text-align: center;
-            transition: transform var(--transition), box-shadow var(--transition);
-            flex: 1 1 calc(33.333% - 40px);
-            box-sizing: border-box;
-        }
-
-        .game:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        .game img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            transition: opacity var(--transition);
-        }
-
-        .game img:hover {
-            opacity: 0.9;
-        }
-
-        /* Contact Section Styles */
-        section#contact {
-            background-color: var(--bg-dark);
-            padding: 80px 20px;
-            text-align: center;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .contact-form input[type="email"],
-        .contact-form textarea {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--text-color);
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        .contact-form input[type="submit"] {
-            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-            color: var(--text-color);
-            border: none;
-            border-radius: 5px;
-            padding: 15px 25px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background var(--transition), transform var(--transition);
-        }
-
-        .contact-form input[type="submit"]:hover {
-            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
-            transform: scale(1.05);
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: var(--bg-light);
-            color: var(--text-color);
-            text-align: center;
-            padding: 20px;
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column;
-            }
-
-            .game {
-                flex: 1 1 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Andrew Hensley's Portfolio</h1>
-        <nav role="navigation">
+        <img src="imgs/logo.png" alt="Logo" class="logo">
+        <h1>Portfolio</h1>
+        <nav>
             <ul>
-                <li><a href="#the-developer">The Developer</a></li>
-                <li><a href="#design">Design Document</a></li>
-                <li><a href="#game">Game</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <section id="the-developer">
-        <h2>The Developer</h2>
-        <img src="imgs/andrew-hensley (1).jpg" alt="Andrew Hensley">
-        <p>
-            Andrew Hensley is a dedicated game developer with a deep passion for crafting immersive and innovative gaming experiences...
-        </p>
+    <section id="about">
+        <h2>About Me</h2>
+        <p>Welcome to my portfolio! I am Andrew Hensley, a passionate game developer with expertise in game design and development...</p>
     </section>
 
-    <section id="design">
-        <h2>Design Document</h2>
-        <div class="pdf-container">
-            <iframe src="Sol-Hearts.pdf" title="Sol-Hearts"></iframe>
+    <section id="portfolio">
+        <h2>Portfolio</h2>
+        <div class="game">
+            <img src="imgs/game1.png" alt="Game 1">
+            <h3>Game Title 1</h3>
+            <p>Description of the game project...</p>
         </div>
-    </section>
-
-    <section id="game">
-        <h2>Game</h2>
-        <canvas id="gameCanvas" width="800" height="600">Your browser does not support the canvas element.</canvas>
+        <div class="game">
+            <img src="imgs/game2.png" alt="Game 2">
+            <h3>Game Title 2</h3>
+            <p>Description of the game project...</p>
+        </div>
     </section>
 
     <section id="contact">
-        <h2>Contact</h2>
-        <div class="contact-form">
-            <p>Contact me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a></p>
-        </div>
+        <h2>Contact Me</h2>
+        <form class="contact-form">
+            <input type="email" placeholder="Your Email">
+            <textarea placeholder="Your Message"></textarea>
+            <input type="submit" value="Send Message">
+        </form>
     </section>
 
     <footer>
-        <p>&copy; 2024 Andrew Hensley's Portfolio. All rights reserved.</p>
+        <p>&copy; 2024 Andrew Hensley. All rights reserved.</p>
     </footer>
-
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-
-        // Define image URLs
-        const cardBackImage = "imgs/card_back.png";
-        const cardFrontImage = "imgs/card_front.png";
-
-        // Load the images
-        const backImage = new Image();
-        const frontImage = new Image();
-        backImage.src = cardBackImage;
-        frontImage.src = cardFrontImage;
-
-        // Draw images on canvas after they load
-        backImage.onload = () => {
-            ctx.drawImage(backImage, 10, 10, 100, 150);
-        };
-
-        frontImage.onload = () => {
-            ctx.drawImage(frontImage, 150, 10, 100, 150);
-        };
-
-        // Add hover effects and transitions for better UX
-        canvas.addEventListener('mousemove', (event) => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(backImage, 10, 10, 100, 150);
-            ctx.drawImage(frontImage, 150, 10, 100, 150);
-            if (event.offsetX >= 10 && event.offsetX <= 110 && event.offsetY >= 10 && event.offsetY <= 160) {
-                ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-                ctx.fillRect(10, 10, 100, 150);
-            } else if (event.offsetX >= 150 && event.offsetX <= 250 && event.offsetY >= 10 && event.offsetY <= 160) {
-                ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-                ctx.fillRect(150, 10, 100, 150);
-            }
-        });
-    </script>
 </body>
 </html>
+
 
