@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creator Portfolio</title> <!-- Updated title -->
-    <link rel="stylesheet" href="Sol-Hearts-Styles.css"> <!-- Link to custom CSS file for styling -->
+    <title>Creator Portfolio</title>
+    <link rel="stylesheet" href="Sol-Hearts-Styles.css">
     <style>
         /* Reset default styles and provide a modern layout */
         body {
@@ -76,8 +76,43 @@
             text-align: justify;
         }
 
+        /* Resume section */
+        section#resume {
+            background-color: #1c1c1c;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        section#resume h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        section#resume p {
+            font-size: 18px;
+            color: #d0d0d0;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        section#resume a {
+            display: inline-block;
+            background: linear-gradient(to bottom, #0074e4, #0048a8);
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        section#resume a:hover {
+            background: linear-gradient(to bottom, #0048a8, #0074e4);
+            transform: scale(1.05);
+        }
+
         /* Narrative section */
-        section#narrative {
+        section#narratives {
             background-color: #2e2e2e;
             padding: 80px 20px;
             text-align: center;
@@ -154,10 +189,11 @@
 </head>
 <body>
     <header>
-        <h1>Portfolio</h1> <!-- Updated title -->
+        <h1>Portfolio</h1>
         <nav>
             <ul>
                 <li><a href="#the-developer">The Developer</a></li>
+                <li><a href="#resume">Resume</a></li>
                 <li><a href="#narratives">Narrative Works</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -168,7 +204,6 @@
         <h2>The Developer</h2>
         <img src="imgs/andrew-hensley (1).jpg" alt="Andrew Hensley">
         <p>
-            ---
             Andrew Hensley is a dedicated game developer with a deep passion for crafting immersive and innovative gaming experiences. His love for video games led him to pursue a Bachelor of Arts in Hospitality, Tourism & Events from Metropolitan State University of Denver, and later, an Associate of Applied Science in Game Development from Red Rocks Community College. Along with his formal education, Andrew has earned several certifications in game and software development, further honing his expertise in the field.
 
             Andrew’s technical skills are extensive, including proficiency in programming languages such as C++, Python, and Java, as well as hands-on experience with game engines like Unreal, Unity, and Maya. He also has a strong grasp of 3D modeling and animation through his work with Blender, where he enjoys creating detailed assets that enhance the visual storytelling in his games.
@@ -178,8 +213,15 @@
             Beyond his professional pursuits, Andrew is an avid gamer who draws inspiration from the games he plays. He is also deeply involved in the gaming community, where he connects with fellow enthusiasts and keeps up with the latest industry trends. Additionally, Andrew has a keen interest in learning Japanese, driven by his fascination with Japanese games and culture, which he hopes will further enrich his game development journey.
 
             Andrew is eager to continue advancing his career in game development, particularly in roles that allow him to explore new frontiers in game design, animation, and storytelling. His dedication to the craft, combined with his curiosity and passion for learning, makes him a valuable asset to any game development team.
-            ---
         </p>
+    </section>
+
+    <section id="resume">
+        <h2>Resume</h2>
+        <p>
+            Interested in learning more about my professional background and achievements? Download my resume for detailed information on my experience, skills, and accomplishments.
+        </p>
+        <a href="Andrew-Hensley-Resume.pdf" download>Download Resume</a>
     </section>
 
     <section id="narratives">
@@ -199,3 +241,4 @@
     </footer>
 </body>
 </html>
+
