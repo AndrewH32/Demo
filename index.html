@@ -132,6 +132,27 @@
             border: none;
         }
 
+        /* Demo reel section */
+        section#demo-reel {
+            background-color: #2e2e2e;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .demo-reel-container {
+            margin: 0 auto;
+            max-width: 80%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-reel-container video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
         /* Contact section with a contact form */
         section#contact {
             background-color: #1c1c1c;
@@ -195,12 +216,13 @@
                 <li><a href="#the-developer">The Developer</a></li>
                 <li><a href="#resume">Resume</a></li>
                 <li><a href="#narratives">Narrative Works</a></li>
+                <li><a href="#demo-reel">Demo Reel</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <section id="the-developer">
+   <section id="the-developer">
         <h2>The Developer</h2>
         <img src="imgs/andrew-hensley (1).jpg" alt="Andrew Hensley">
         <p>
@@ -232,6 +254,16 @@
         </div>
     </section>
 
+    <section id="demo-reel">
+    <h2>Demo Reel</h2>
+    <div class="demo-reel-container">
+        <video controls width="80%">
+            <source src="EVOC Helicopter Denver Demo Revised 4.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</section>
+
     <section id="contact">
         <h2>Contact</h2>
         <p>Contact me at <a href="mailto:poweredbydreams92@gmail.com">poweredbydreams92@gmail.com</a></p>
@@ -242,4 +274,3 @@
     </footer>
 </body>
 </html>
-
